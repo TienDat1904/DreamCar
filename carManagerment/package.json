@@ -6,7 +6,7 @@
   "homepage": "https://tiendat1904.github.io/DreamCar/",
   "scripts": {
     "dev": "vite",
-    "dist": "vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
