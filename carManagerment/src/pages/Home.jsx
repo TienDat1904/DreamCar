@@ -59,9 +59,9 @@ function Home({ onNavigateToCars, onSelectCar }) {
 
         <div className="home-grid small">
           {[
-            { title: t.home_service_delivery, desc: t.home_service_delivery_desc, icon: '🚚' },
-            { title: t.home_service_price, desc: t.home_service_price_desc, icon: '💰' },
-            { title: t.home_service_support, desc: t.home_service_support_desc, icon: '🛠️' },
+            { title: t.home_service_delivery, desc: t.home_service_delivery_desc},
+            { title: t.home_service_price, desc: t.home_service_price_desc},
+            { title: t.home_service_support, desc: t.home_service_support_desc},
           ].map((s, i) => (
             <div key={i} className="home-card">
               <div className="home-icon">{s.icon}</div>
