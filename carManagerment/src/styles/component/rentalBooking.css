@@ -1,0 +1,184 @@
+/* ===== OVERLAY ===== */
+.rental-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* ===== MODAL ===== */
+.rental-modal {
+  background: var(--bg-main);
+  width: 100%;
+  max-width: 600px;
+
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+
+  animation: modalFade 0.3s ease;
+}
+
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== HEADER ===== */
+.rental-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+
+.rental-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.rental-header button {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--text-sub);
+  border-radius: 6px;
+  padding: 4px 8px;
+  transition: 0.2s;
+}
+
+.rental-header button:hover {
+  background: #e5e7eb;
+  color: var(--text-main);
+}
+
+/* ===== CONTENT ===== */
+.rental-content {
+  padding: 24px;
+}
+
+/* ===== CAR INFO ===== */
+.rental-car {
+  background: #eef2ff;
+  border-left: 4px solid var(--primary-color);
+  padding: 14px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.rental-car h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.rental-car p {
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+/* ===== INPUT ===== */
+.rental-content input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+
+  transition: 0.2s;
+}
+
+.rental-content input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* ===== ERROR ===== */
+.rental-error {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* ===== SUMMARY ===== */
+.rental-summary {
+  background: var(--bg-soft);
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.rental-summary p {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.rental-summary p:last-child {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* ===== BUTTONS ===== */
+.rental-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.rental-actions button {
+  flex: 1;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+/* CONFIRM */
+.rental-confirm {
+  background: var(--primary-color);
+  color: white;
+}
+
+.rental-confirm:hover {
+  background: #1a2f6d;
+  transform: translateY(-2px);
+}
+
+/* DISABLED */
+.rental-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* CANCEL */
+.rental-cancel {
+  background: #e5e7eb;
+  color: var(--text-main);
+}
+
+.rental-cancel:hover {
+  background: #d1d5db;
+}

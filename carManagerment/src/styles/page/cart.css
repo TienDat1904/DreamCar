@@ -1,0 +1,168 @@
+/* ===== Layout ===== */
+.cart {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* ===== Header ===== */
+.cart-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.cart-header h1 {
+  font-size: 32px;
+  color: #2c3e50;
+}
+
+.cart-header p {
+  color: #7f8c8d;
+}
+
+/* ===== Empty ===== */
+.cart-empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.cart-empty h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.cart-empty p {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+.cart-empty-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ===== List ===== */
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ===== Item ===== */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+  border-radius: 10px;
+  background: #fff;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: 0.25s;
+}
+
+.cart-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.cart-item-info h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.cart-item-price {
+  margin-top: 5px;
+  color: #3498db;
+  font-size: 14px;
+}
+
+/* ===== Buttons ===== */
+.cart button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.cart .btn-primary {
+  background: #3498db;
+  color: white;
+}
+
+.cart .btn-primary:hover {
+  background: #2980b9;
+}
+
+.cart .btn-secondary {
+  background: #95a5a6;
+  color: white;
+}
+
+.cart .btn-secondary:hover {
+  background: #7f8c8d;
+}
+
+.cart .btn-success {
+  background: #2ecc71;
+  color: white;
+}
+
+.cart .btn-success:hover {
+  background: #27ae60;
+}
+
+.cart .btn-danger {
+  background: #e74c3c;
+  color: white;
+}
+
+.cart .btn-danger:hover {
+  background: #c0392b;
+}
+
+.cart-remove {
+  background: #e74c3c;
+  color: white;
+}
+
+.cart-remove:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* ===== Summary ===== */
+.cart-summary {
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #fff;
+  border: 2px solid #3498db;
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+}
+
+.cart-total-price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3498db;
+}
+
+/* ===== Actions ===== */
+.cart-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.cart-actions button {
+  flex: 1;
+}

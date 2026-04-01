@@ -1,0 +1,15 @@
+@import './base/variables.css';
+@import './base/reset.css';
+@import './base/typography.css';
+@import './base/layout.css';
+@import './base/button.css';
+
+@import './component/navbar.css';
+@import './component/filterbav.css';
+@import './component/carcard.css';
+@import './component/rentalBooking.css';
+
+@import './page/cars.css';
+@import './page/detail.css';
+@import './page/rentals.css';
+@import './page/cart.css';

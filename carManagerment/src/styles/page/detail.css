@@ -1,0 +1,94 @@
+.detail-page {
+  padding: 40px 8%;
+  min-height: 100vh;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.4s;
+}
+
+.detail-page.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.detail-top {
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: white; /* Thêm màu nền trắng thay vì trong suốt */
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 50px;
+}
+
+/* IMAGE */
+.detail-image img {
+  width: 100%;
+  border-radius: 16px;
+}
+
+/* INFO */
+.detail-type {
+  font-size: 12px;
+  background: #f1f5f9;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.detail-name {
+  font-size: 40px;
+  margin: 10px 0;
+}
+
+.detail-price {
+  font-size: 32px;
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* SPECS */
+.detail-specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.spec-item {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+/* DESC */
+.detail-desc {
+  margin-bottom: 20px;
+}
+
+/* ACTION */
+.detail-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.detail-rent {
+  font-size: 16px;
+  color: #27ae60;
+  margin-bottom: 20px;
+}
