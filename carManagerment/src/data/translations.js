@@ -6,6 +6,7 @@ export const translations = {
     nav_cart: 'Cart',
     nav_rentals: 'Rentals',
     nav_logout: 'Logout',
+    nav_contact: 'Contact',
 
     // Language
     lang_english: 'English',
@@ -180,6 +181,7 @@ export const translations = {
     nav_cart: 'Giỏ Hàng',
     nav_rentals: 'Cho Thuê',
     nav_logout: 'Đăng Xuất',
+    nav_contact: 'Liên Hệ',
 
     // Language
     lang_english: 'English',

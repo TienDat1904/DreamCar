@@ -135,9 +135,9 @@ function Home({ onNavigateToCars, onSelectCar }) {
                 <ellipse cx="16" cy="23" rx="13" ry="3.5" fill="#f59e0b" opacity="0.2"/>
                 <circle cx="16" cy="13" r="5" fill="#f59e0b" opacity="0.6"/>
               </svg>
-              ShoeStore
+              CarStore
             </div>
-            <p>Your trusted platform for premium footwear. Step into style, step into confidence.</p>
+            <p>A reputable platform for buying, selling, and renting cars. Experience the best service for you.</p>
             <div className="footer-social">
               {['Instagram', 'TikTok', 'Facebook'].map(s => (
                 <span key={s} className="social-chip">{s}</span>
@@ -167,8 +167,8 @@ function Home({ onNavigateToCars, onSelectCar }) {
             <div className="footer-col">
               <h4>Contact</h4>
               <ul>
-                <li>support@shoestore.com</li>
-                <li>+84 123 456 789</li>
+                <li>nguyentiendat19042006@gmail.com</li>
+                <li>0383834006</li>
                 <li>Ho Chi Minh City, VN</li>
               </ul>
             </div>
@@ -176,7 +176,7 @@ function Home({ onNavigateToCars, onSelectCar }) {
         </div>
 
         <div className="footer-bottom">
-          <span>© 2026 ShoeStore. All rights reserved.</span>
+          <span>© 2026 CarStore. All rights reserved.</span>
           <span>Privacy · Terms · Cookies</span>
         </div>
       </footer>

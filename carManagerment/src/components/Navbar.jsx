@@ -7,6 +7,7 @@ const MENU = [
   { key: 'Cars', labelKey: 'nav_cars' },
   { key: 'Cart', labelKey: 'nav_cart' },
   { key: 'Rentals', labelKey: 'nav_rentals' },
+  { key: 'Contact', labelKey: 'nav_contact' }, // ✅ NEW
 ];
 
 function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
@@ -17,7 +18,7 @@ function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
 
   const langRef = useRef(null);
 
-  // 👉 Close dropdown khi click ngoài
+  // Close dropdown outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (langRef.current && !langRef.current.contains(e.target)) {
@@ -41,6 +42,7 @@ function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
 
   return (
     <nav className="navbar">
+
       {/* LOGO */}
       <div className="navbar-logo" onClick={() => handleNavigate('Home')}>
         DreamCar
@@ -61,6 +63,7 @@ function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
 
       {/* RIGHT */}
       <div className="navbar-right">
+
         {/* LANGUAGE */}
         <div className="lang-dropdown" ref={langRef}>
           <button
@@ -74,13 +77,19 @@ function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
             <div className="lang-menu">
               <div
                 className={`lang-item ${language === 'en' ? 'active' : ''}`}
-                onClick={() => switchLanguage('en')}
+                onClick={() => {
+                  switchLanguage('en');
+                  setLangOpen(false);
+                }}
               >
                 {t.lang_english}
               </div>
               <div
                 className={`lang-item ${language === 'vi' ? 'active' : ''}`}
-                onClick={() => switchLanguage('vi')}
+                onClick={() => {
+                  switchLanguage('vi');
+                  setLangOpen(false);
+                }}
               >
                 {t.lang_vietnamese}
               </div>
@@ -109,7 +118,7 @@ function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
         </button>
       </div>
 
-      {/* MOBILE */}
+      {/* MOBILE MENU */}
       {mobileOpen && (
         <div className="mobile-menu">
           {MENU.map((item) => (
