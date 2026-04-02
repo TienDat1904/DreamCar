@@ -3,10 +3,9 @@ import { loginUser } from '../services/localStorageService';
 import { useLanguage } from '../services/LanguageContext';
 import { useToast } from '../services/ToastContext';
 
-/* ─── Shared dark-mountain design tokens ─── */
+/* ─── Design tokens ─── */
 const theme = {
   fontFamily: "'Sora', 'Segoe UI', sans-serif",
-  bgDeep: '#080b0f',
   cardBg: 'rgba(16, 20, 28, 0.70)',
   border: 'rgba(255,255,255,0.10)',
   borderFocus: 'rgba(255,255,255,0.38)',
@@ -21,18 +20,10 @@ const theme = {
   shadow: '0 40px 100px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.05)',
 };
 
-/* ─── SVG icons ─── */
 const IconUser = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
     <circle cx="12" cy="7" r="4"/>
-  </svg>
-);
-
-const IconLock = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-    <rect x="3" y="11" width="18" height="11" rx="2"/>
-    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
   </svg>
 );
 
@@ -51,10 +42,8 @@ const IconEyeOff = () => (
   </svg>
 );
 
-/* ─── Background scene (mountains + stars) ─── */
 const BackgroundScene = () => (
   <div style={{ position: 'fixed', inset: 0, zIndex: 0, overflow: 'hidden', background: '#080b0f' }}>
-    {/* Stars */}
     <div style={{
       position: 'absolute', inset: 0,
       backgroundImage: `
@@ -69,12 +58,10 @@ const BackgroundScene = () => (
         radial-gradient(1px 1px at 85% 30%, rgba(255,255,255,0.35) 0%, transparent 100%)
       `,
     }} />
-    {/* Sky gradient */}
     <div style={{
       position: 'absolute', inset: 0,
       background: 'linear-gradient(180deg, #06090e 0%, #0c1520 45%, #111e2e 70%, #090e18 100%)',
     }} />
-    {/* Mountains SVG */}
     <svg viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMax slice"
       style={{ position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', height: '55%' }}>
@@ -84,7 +71,6 @@ const BackgroundScene = () => (
       <rect x="0" y="382" width="1440" height="18" fill="#050a12"/>
       <ellipse cx="720" cy="395" rx="900" ry="55" fill="rgba(55,85,125,0.07)"/>
     </svg>
-    {/* Fog */}
     <div style={{
       position: 'absolute', inset: 0,
       background: 'radial-gradient(ellipse 120% 38% at 50% 73%, rgba(70,105,145,0.10) 0%, transparent 60%)',
@@ -102,7 +88,8 @@ const BackgroundScene = () => (
 function Login({ onLoginSuccess, onSwitchToRegister }) {
   const { t } = useLanguage();
   const { showToast } = useToast();
-  const [email, setEmail] = useState('');
+
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -111,11 +98,13 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
-    if (!email || !password) {
-      setError(t.validation_email_required);
+
+    if (!username.trim() || !password) {
+      setError(t.validation_username_required || 'Vui lòng nhập tên đăng nhập và mật khẩu');
       return;
     }
-    const result = loginUser(email, password);
+
+    const result = loginUser(username.trim(), password);
     if (result.success) {
       showToast(t.login_success, 'success');
       onLoginSuccess();
@@ -146,7 +135,6 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
         display: 'flex', justifyContent: 'center', alignItems: 'center',
         minHeight: '100vh', padding: '20px', fontFamily: theme.fontFamily,
       }}>
-        {/* macOS window chrome */}
         <div style={{
           width: '460px', maxWidth: '95vw',
           borderRadius: '14px', overflow: 'hidden',
@@ -171,7 +159,6 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
             WebkitBackdropFilter: 'blur(26px) saturate(150%)',
             padding: '44px 44px 38px',
           }}>
-            {/* Title */}
             <h1 style={{
               fontFamily: theme.fontFamily,
               fontSize: '2rem', fontWeight: 700,
@@ -181,7 +168,6 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
               {t.login_title}
             </h1>
 
-            {/* Error */}
             {error && (
               <div style={{
                 color: '#fca5a5', fontSize: '0.82rem', textAlign: 'center',
@@ -192,16 +178,18 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
             )}
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {/* Email */}
+
+              {/* Username */}
               <div style={{ position: 'relative' }}>
                 <input
-                  type="email"
-                  style={inputStyle('email')}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t.login_email_placeholder}
-                  onFocus={() => setFocusedField('email')}
+                  type="text"
+                  style={inputStyle('username')}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder={t.login_username_placeholder || 'Tên đăng nhập'}
+                  onFocus={() => setFocusedField('username')}
                   onBlur={() => setFocusedField(null)}
+                  autoComplete="username"
                 />
                 <span style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: theme.textMuted }}>
                   <IconUser />
@@ -215,9 +203,10 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
                   style={inputStyle('password')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t.login_password_placeholder}
+                  placeholder={t.login_password_placeholder || 'Mật khẩu'}
                   onFocus={() => setFocusedField('password')}
                   onBlur={() => setFocusedField(null)}
+                  autoComplete="current-password"
                 />
                 <button
                   type="button"
@@ -259,7 +248,7 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
                   fontFamily: theme.fontFamily, fontSize: '0.9rem', fontWeight: 700,
                   cursor: 'pointer', marginTop: '4px',
                   boxShadow: '0 4px 20px rgba(255,255,255,0.14)',
-                  transition: 'transform 0.15s, box-shadow 0.2s, background 0.2s',
+                  transition: 'transform 0.15s, box-shadow 0.2s',
                 }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(255,255,255,0.2)'; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.14)'; }}
@@ -268,7 +257,6 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
               </button>
             </form>
 
-            {/* Switch to Register */}
             <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.82rem', color: theme.textMuted }}>
               {t.login_link_text}{' '}
               <button

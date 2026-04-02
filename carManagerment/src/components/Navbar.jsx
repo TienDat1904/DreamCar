@@ -7,7 +7,7 @@ const MENU = [
   { key: 'Cars', labelKey: 'nav_cars' },
   { key: 'Cart', labelKey: 'nav_cart' },
   { key: 'Rentals', labelKey: 'nav_rentals' },
-  { key: 'Contact', labelKey: 'nav_contact' }, // ✅ NEW
+  { key: 'Contact', labelKey: 'nav_contact' },
 ];
 
 function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {

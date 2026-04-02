@@ -14,20 +14,26 @@ export const initializeDemoUser = () => {
   try {
     const users = getUsers();
     const currentUser = getCurrentUser();
-    
-    // If no users exist, create a demo account and auto-login
+
     if (users.length === 0 && !currentUser) {
       const demoUser = {
+        username: 'demo',
+        fullName: 'Demo User',
+        phone: '0000000000',
         email: 'demo@example.com',
         password: 'Demo@123',
       };
-      
+
       localStorage.setItem('users', JSON.stringify([demoUser]));
-      localStorage.setItem('currentUser', JSON.stringify({ email: demoUser.email }));
-      
+      localStorage.setItem('currentUser', JSON.stringify({
+        username: demoUser.username,
+        fullName: demoUser.fullName,
+        email: demoUser.email,
+      }));
+
       return true;
     }
-    
+
     return false;
   } catch (error) {
     console.error('Error initializing demo user:', error);
@@ -39,16 +45,13 @@ export const addToCart = (car) => {
   try {
     const cart = getCart();
     const existingItem = cart.find(item => item.id === car.id);
-    
+
     if (existingItem) {
       existingItem.quantity = (existingItem.quantity || 1) + 1;
     } else {
-      cart.push({
-        ...car,
-        quantity: 1,
-      });
+      cart.push({ ...car, quantity: 1 });
     }
-    
+
     localStorage.setItem('cart', JSON.stringify(cart));
     return cart;
   } catch (error) {
@@ -94,16 +97,13 @@ export const addToRentals = (car) => {
   try {
     const rentals = getRentals();
     const existingItem = rentals.find(item => item.id === car.id);
-    
+
     if (existingItem) {
       existingItem.quantity = (existingItem.quantity || 1) + 1;
     } else {
-      rentals.push({
-        ...car,
-        quantity: 1,
-      });
+      rentals.push({ ...car, quantity: 1 });
     }
-    
+
     localStorage.setItem('rentals', JSON.stringify(rentals));
     return rentals;
   } catch (error) {
@@ -145,21 +145,20 @@ export const getUsers = () => {
   }
 };
 
-export const registerUser = (email, password) => {
+// ✅ Updated: accepts username, fullName, phone, email, password
+export const registerUser = (username, fullName, phone, email, password) => {
   try {
     const users = getUsers();
-    
-    // Check if user already exists
-    if (users.find(user => user.email === email)) {
+
+    if (users.find(u => u.username === username)) {
+      return { success: false, message: 'Username already taken' };
+    }
+
+    if (users.find(u => u.email === email)) {
       return { success: false, message: 'Email already registered' };
     }
-    
-    // Add new user
-    users.push({
-      email,
-      password, // In production, this should be hashed
-    });
-    
+
+    users.push({ username, fullName, phone, email, password });
     localStorage.setItem('users', JSON.stringify(users));
     return { success: true, message: 'Registration successful' };
   } catch (error) {
@@ -168,18 +167,22 @@ export const registerUser = (email, password) => {
   }
 };
 
-export const loginUser = (email, password) => {
+// ✅ Updated: login by username + password
+export const loginUser = (username, password) => {
   try {
     const users = getUsers();
-    const user = users.find(u => u.email === email && u.password === password);
-    
+    const user = users.find(u => u.username === username && u.password === password);
+
     if (!user) {
-      return { success: false, message: 'Invalid credentials' };
+      return { success: false, message: 'Invalid username or password' };
     }
-    
-    // Save current user
-    localStorage.setItem('currentUser', JSON.stringify({ email: user.email }));
-    return { success: true, user: { email: user.email } };
+
+    localStorage.setItem('currentUser', JSON.stringify({
+      username: user.username,
+      fullName: user.fullName,
+      email: user.email,
+    }));
+    return { success: true, user: { username: user.username, fullName: user.fullName, email: user.email } };
   } catch (error) {
     console.error('Error logging in:', error);
     return { success: false, message: 'Login failed' };
@@ -205,6 +208,3 @@ export const logoutUser = () => {
     return false;
   }
 };
-
-
-
