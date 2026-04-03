@@ -7,144 +7,210 @@ function Contact() {
   const { t } = useLanguage();
 
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    address: '',
-    message: '',
+    firstName: '', lastName: '', email: '',
+    phone: '', address: '', message: '',
   });
-
   const [errors, setErrors] = useState({});
 
-  // handle change
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  // validate
   const validate = () => {
-    const newErrors = {};
-
-    if (!form.firstName.trim()) newErrors.firstName = 'Required';
-    if (!form.lastName.trim()) newErrors.lastName = 'Required';
-
+    const errs = {};
+    if (!form.firstName.trim()) errs.firstName = t.contact_error_required;
+    if (!form.lastName.trim())  errs.lastName  = t.contact_error_required;
     if (!form.email) {
-      newErrors.email = 'Required';
+      errs.email = t.contact_error_required;
     } else if (!/\S+@\S+\.\S+/.test(form.email)) {
-      newErrors.email = 'Invalid email';
+      errs.email = t.contact_error_email;
     }
-
-    if (!form.phone) newErrors.phone = 'Required';
-
-    if (!form.message) newErrors.message = 'Required';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (!form.phone)   errs.phone   = t.contact_error_required;
+    if (!form.message) errs.message = t.contact_error_required;
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
   };
 
-  // submit
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!validate()) return;
-
-    console.log('Form:', form);
-
-    showToast('Message sent successfully!', 'success');
-
-    setForm({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      address: '',
-      message: '',
-    });
+    showToast(t.contact_success, 'success');
+    setForm({ firstName: '', lastName: '', email: '', phone: '', address: '', message: '' });
+    setErrors({});
   };
 
+  const inputStyle = (hasError) => ({
+    width: '100%',
+    padding: '14px 18px',
+    background: 'rgba(255,255,255,0.05)',
+    border: `1px solid ${hasError ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.1)'}`,
+    borderRadius: '12px',
+    color: '#f1f1f3',
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: '0.9rem',
+    outline: 'none',
+    transition: 'border-color 0.2s, background 0.2s',
+    boxSizing: 'border-box',
+  });
+
   return (
-    <div className="contact">
+    <div style={{
+      minHeight: '100vh',
+      background: '#09090b',
+      padding: '60px 20px 80px',
+      fontFamily: "'DM Sans', 'Sora', sans-serif",
+      color: '#f1f1f3',
+    }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap');
+        .contact-input:focus { border-color: rgba(255,255,255,0.35) !important; background: rgba(255,255,255,0.08) !important; }
+        .contact-input::placeholder { color: rgba(232,234,237,0.35); }
+        .contact-input textarea { resize: vertical; }
+        .contact-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,255,255,0.18) !important; }
+      `}</style>
 
-      <div className="contact-container">
-        <h1>{t.contact_title || 'Contact Us'}</h1>
+      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
 
-        <form onSubmit={handleSubmit} className="contact-form">
-
-          <div className="form-row">
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              value={form.firstName}
-              onChange={handleChange}
-            />
-            {errors.firstName && <span>{errors.firstName}</span>}
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+          <div style={{
+            fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.25em',
+            textTransform: 'uppercase', color: '#f59e0b', marginBottom: '12px',
+          }}>
+            CONTACT
           </div>
+          <h1 style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
+            fontWeight: 700, color: '#f1f1f3',
+            letterSpacing: '-0.02em', margin: '0 0 10px',
+          }}>
+            {t.contact_title}
+          </h1>
+          <p style={{ color: '#71717a', fontSize: '0.9rem', fontWeight: 300 }}>
+            {t.contact_subtitle}
+          </p>
+        </div>
 
-          <div className="form-row">
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              value={form.lastName}
-              onChange={handleChange}
-            />
-            {errors.lastName && <span>{errors.lastName}</span>}
-          </div>
+        {/* Form card */}
+        <div style={{
+          background: 'rgba(255,255,255,0.04)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: '16px',
+          padding: '36px 32px',
+        }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
-          <div className="form-row">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-            />
-            {errors.email && <span>{errors.email}</span>}
-          </div>
+            {/* First + Last name row */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <input
+                  className="contact-input"
+                  type="text" name="firstName"
+                  placeholder={t.contact_firstname_placeholder}
+                  value={form.firstName} onChange={handleChange}
+                  style={inputStyle(errors.firstName)}
+                />
+                {errors.firstName && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.firstName}</span>}
+              </div>
+              <div>
+                <input
+                  className="contact-input"
+                  type="text" name="lastName"
+                  placeholder={t.contact_lastname_placeholder}
+                  value={form.lastName} onChange={handleChange}
+                  style={inputStyle(errors.lastName)}
+                />
+                {errors.lastName && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.lastName}</span>}
+              </div>
+            </div>
 
-          <div className="form-row">
-            <input
-              type="text"
-              name="phone"
-              placeholder="Phone"
-              value={form.phone}
-              onChange={handleChange}
-            />
-            {errors.phone && <span>{errors.phone}</span>}
-          </div>
+            {/* Email */}
+            <div>
+              <input
+                className="contact-input"
+                type="email" name="email"
+                placeholder={t.contact_email_placeholder}
+                value={form.email} onChange={handleChange}
+                style={inputStyle(errors.email)}
+              />
+              {errors.email && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.email}</span>}
+            </div>
 
-          <div className="form-row">
-            <input
-              type="text"
-              name="address"
-              placeholder="Address"
-              value={form.address}
-              onChange={handleChange}
-            />
-          </div>
+            {/* Phone */}
+            <div>
+              <input
+                className="contact-input"
+                type="tel" name="phone"
+                placeholder={t.contact_phone_placeholder}
+                value={form.phone} onChange={handleChange}
+                style={inputStyle(errors.phone)}
+              />
+              {errors.phone && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
+            </div>
 
-          <div className="form-row">
-            <textarea
-              name="message"
-              placeholder="Message..."
-              value={form.message}
-              onChange={handleChange}
-            />
-            {errors.message && <span>{errors.message}</span>}
-          </div>
+            {/* Address (optional) */}
+            <div>
+              <input
+                className="contact-input"
+                type="text" name="address"
+                placeholder={t.contact_address_placeholder}
+                value={form.address} onChange={handleChange}
+                style={inputStyle(false)}
+              />
+            </div>
 
-          <button type="submit" className="btn-submit">
-            Send Message
-          </button>
+            {/* Message */}
+            <div>
+              <textarea
+                className="contact-input"
+                name="message"
+                placeholder={t.contact_message_placeholder}
+                value={form.message} onChange={handleChange}
+                rows={5}
+                style={{ ...inputStyle(errors.message), resize: 'vertical' }}
+              />
+              {errors.message && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.message}</span>}
+            </div>
 
-        </form>
+            {/* Submit */}
+            <button
+              className="contact-submit"
+              type="submit"
+              style={{
+                width: '100%', padding: '15px',
+                background: '#ffffff', color: '#0a0a0a',
+                border: 'none', borderRadius: '50px',
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: '0.9rem', fontWeight: 700,
+                cursor: 'pointer', marginTop: '4px',
+                boxShadow: '0 4px 20px rgba(255,255,255,0.12)',
+                transition: 'transform 0.15s, box-shadow 0.2s',
+              }}
+            >
+              {t.contact_submit_button}
+            </button>
+          </form>
+        </div>
+
+        {/* Quick contact info */}
+        <div style={{
+          display: 'flex', justifyContent: 'center', gap: '32px',
+          marginTop: '32px', flexWrap: 'wrap',
+        }}>
+          {[
+            { icon: '📧', text: 'nguyentiendat19042006@gmail.com' },
+            { icon: '📞', text: '0383 834 006' },
+            { icon: '📍', text: 'TP. Hồ Chí Minh, VN' },
+          ].map(({ icon, text }) => (
+            <div key={text} style={{
+              display: 'flex', alignItems: 'center', gap: '8px',
+              fontSize: '0.82rem', color: '#71717a',
+            }}>
+              <span>{icon}</span>
+              <span>{text}</span>
+            </div>
+          ))}
+        </div>
       </div>
-
     </div>
   );
 }

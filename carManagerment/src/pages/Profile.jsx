@@ -8,7 +8,6 @@ const theme = {
   bg: '#09090b',
   card: 'rgba(255,255,255,0.04)',
   cardBorder: 'rgba(255,255,255,0.08)',
-  cardHov: 'rgba(255,255,255,0.07)',
   text: '#f1f1f3',
   textMuted: '#71717a',
   accent: '#f59e0b',
@@ -19,9 +18,8 @@ const theme = {
   radius: '14px',
 };
 
-/* ─── SVG Icons ─── */
 const IconUser = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
     <circle cx="12" cy="7" r="4"/>
   </svg>
@@ -58,39 +56,34 @@ const IconLogout = () => (
 );
 
 const IconShield = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
   </svg>
 );
 
-function Profile({ currentUser, onLogout, onNavigate }) {
+function Profile({ currentUser, onLogout }) {
   const { t } = useLanguage();
   const { showToast } = useToast();
   const [confirmLogout, setConfirmLogout] = useState(false);
 
   const handleLogout = () => {
-    if (!confirmLogout) {
-      setConfirmLogout(true);
-      return;
-    }
+    if (!confirmLogout) { setConfirmLogout(true); return; }
     logoutUser();
-    showToast('Đã đăng xuất thành công', 'success');
+    showToast(t.login_success ? t.nav_logout : 'Logged out', 'success');
     onLogout();
   };
 
-  const cancelLogout = () => setConfirmLogout(false);
-
-  // Get initials from fullName or username
   const getInitials = () => {
     const name = currentUser?.fullName || currentUser?.username || '';
-    return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?';
   };
 
+  // ✅ All labels now from translations
   const infoRows = [
-    { icon: <IconUser />,  label: 'Tên đăng nhập', value: currentUser?.username },
-    { icon: <IconCard />,  label: 'Họ và tên',      value: currentUser?.fullName },
-    { icon: <IconPhone />, label: 'Số điện thoại',  value: currentUser?.phone },
-    { icon: <IconMail />,  label: 'Email',           value: currentUser?.email },
+    { icon: <IconUser />,  label: t.profile_username, value: currentUser?.username },
+    { icon: <IconCard />,  label: t.profile_fullname, value: currentUser?.fullName },
+    { icon: <IconPhone />, label: t.profile_phone,    value: currentUser?.phone },
+    { icon: <IconMail />,  label: t.profile_email,    value: currentUser?.email },
   ];
 
   return (
@@ -121,35 +114,28 @@ function Profile({ currentUser, onLogout, onNavigate }) {
           border: `1px solid ${theme.cardBorder}`,
           borderRadius: theme.radius,
           padding: '36px 32px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '14px',
-          textAlign: 'center',
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          gap: '14px', textAlign: 'center',
         }}>
-          {/* Avatar circle */}
           <div style={{
-            width: 80, height: 80,
-            borderRadius: '50%',
+            width: 80, height: 80, borderRadius: '50%',
             background: `linear-gradient(135deg, ${theme.accent}, #ea580c)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '1.8rem', fontWeight: 700, color: '#0a0a0a',
             boxShadow: `0 0 0 4px ${theme.accentDim}, 0 12px 30px rgba(245,158,11,0.25)`,
-            letterSpacing: '-0.02em',
           }}>
             {getInitials()}
           </div>
 
           <div>
             <h1 style={{ fontSize: '1.35rem', fontWeight: 700, color: theme.text, margin: '0 0 4px', letterSpacing: '-0.02em' }}>
-              {currentUser?.fullName || currentUser?.username || 'Người dùng'}
+              {currentUser?.fullName || currentUser?.username || '—'}
             </h1>
             <p style={{ fontSize: '0.82rem', color: theme.textMuted, margin: 0 }}>
               @{currentUser?.username}
             </p>
           </div>
 
-          {/* Badge */}
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             padding: '5px 14px',
@@ -161,7 +147,7 @@ function Profile({ currentUser, onLogout, onNavigate }) {
             color: theme.accent,
           }}>
             <IconShield />
-            Thành viên
+            {t.profile_member_badge}
           </div>
         </div>
 
@@ -173,8 +159,12 @@ function Profile({ currentUser, onLogout, onNavigate }) {
           overflow: 'hidden',
         }}>
           <div style={{ padding: '18px 24px 12px', borderBottom: `1px solid ${theme.cardBorder}` }}>
-            <h2 style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: theme.textMuted, margin: 0 }}>
-              Thông tin cá nhân
+            <h2 style={{
+              fontSize: '0.72rem', fontWeight: 700,
+              letterSpacing: '0.18em', textTransform: 'uppercase',
+              color: theme.textMuted, margin: 0,
+            }}>
+              {t.profile_info_section}
             </h2>
           </div>
 
@@ -192,26 +182,34 @@ function Profile({ currentUser, onLogout, onNavigate }) {
             >
               <span style={{ color: theme.accent, flexShrink: 0, display: 'flex' }}>{icon}</span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: theme.textMuted, marginBottom: '3px', letterSpacing: '0.04em' }}>
+                <div style={{ fontSize: '0.7rem', color: theme.textMuted, marginBottom: '3px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                   {label}
                 </div>
-                <div style={{ fontSize: '0.92rem', fontWeight: 500, color: value ? theme.text : theme.textMuted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {value || '—'}
+                <div style={{
+                  fontSize: '0.92rem', fontWeight: 500,
+                  color: value ? theme.text : theme.textMuted,
+                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                }}>
+                  {value || t.profile_no_data}
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* ── Logout card ── */}
+        {/* ── Account/Logout card ── */}
         <div className="profile-card" style={{
           background: theme.card,
           border: `1px solid ${theme.cardBorder}`,
           borderRadius: theme.radius,
           padding: '24px',
         }}>
-          <h2 style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: theme.textMuted, margin: '0 0 16px' }}>
-            Tài khoản
+          <h2 style={{
+            fontSize: '0.72rem', fontWeight: 700,
+            letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: theme.textMuted, margin: '0 0 16px',
+          }}>
+            {t.profile_account_section}
           </h2>
 
           {!confirmLogout ? (
@@ -221,53 +219,48 @@ function Profile({ currentUser, onLogout, onNavigate }) {
               style={{
                 width: '100%', padding: '13px 20px',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-                background: theme.dangerDim,
-                color: theme.danger,
+                background: theme.dangerDim, color: theme.danger,
                 border: `1px solid ${theme.dangerBorder}`,
                 borderRadius: '10px',
                 fontFamily: theme.fontFamily, fontSize: '0.9rem', fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'background 0.2s, border-color 0.2s',
+                cursor: 'pointer', transition: 'background 0.2s, border-color 0.2s',
               }}
             >
               <IconLogout />
-              {t.nav_logout || 'Đăng xuất'}
+              {t.profile_logout_btn}
             </button>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <p style={{ fontSize: '0.88rem', color: theme.textMuted, margin: '0 0 4px', textAlign: 'center' }}>
-                Bạn có chắc muốn đăng xuất không?
+                {t.profile_logout_confirm}
               </p>
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button
                   className="cancel-btn"
-                  onClick={cancelLogout}
+                  onClick={() => setConfirmLogout(false)}
                   style={{
                     flex: 1, padding: '12px',
-                    background: 'rgba(255,255,255,0.05)',
-                    color: theme.text,
+                    background: 'rgba(255,255,255,0.05)', color: theme.text,
                     border: `1px solid ${theme.cardBorder}`,
                     borderRadius: '10px',
                     fontFamily: theme.fontFamily, fontSize: '0.88rem', fontWeight: 500,
                     cursor: 'pointer', transition: 'background 0.2s',
                   }}
                 >
-                  Huỷ
+                  {t.profile_logout_cancel}
                 </button>
                 <button
                   className="logout-btn-confirm"
                   onClick={handleLogout}
                   style={{
                     flex: 1, padding: '12px',
-                    background: theme.danger,
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '10px',
+                    background: theme.danger, color: '#fff',
+                    border: 'none', borderRadius: '10px',
                     fontFamily: theme.fontFamily, fontSize: '0.88rem', fontWeight: 700,
                     cursor: 'pointer', transition: 'background 0.2s',
                   }}
                 >
-                  Đăng xuất
+                  {t.profile_logout_yes}
                 </button>
               </div>
             </div>

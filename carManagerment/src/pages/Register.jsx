@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { registerUser, getUsers } from '../services/localStorageService';
 import { useLanguage } from '../services/LanguageContext';
 
-/* ─── Design tokens ─── */
 const theme = {
   fontFamily: "'Sora', 'Segoe UI', sans-serif",
   cardBg: 'rgba(16, 20, 28, 0.70)',
@@ -23,14 +22,12 @@ const theme = {
   shadow: '0 40px 100px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.05)',
 };
 
-/* ─── SVG icons ─── */
 const IconUser = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
     <circle cx="12" cy="7" r="4"/>
   </svg>
 );
-
 const IconCard = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -39,27 +36,23 @@ const IconCard = () => (
     <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
   </svg>
 );
-
 const IconPhone = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.64 3.38 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
   </svg>
 );
-
 const IconMail = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
     <rect x="2" y="4" width="20" height="16" rx="2"/>
     <path d="M2 7l10 7 10-7"/>
   </svg>
 );
-
 const IconEye = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
     <circle cx="12" cy="12" r="3"/>
   </svg>
 );
-
 const IconEyeOff = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
     <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
@@ -68,7 +61,6 @@ const IconEyeOff = () => (
   </svg>
 );
 
-/* ─── Background ─── */
 const BackgroundScene = () => (
   <div style={{ position: 'fixed', inset: 0, zIndex: 0, overflow: 'hidden', background: '#080b0f' }}>
     <div style={{
@@ -85,12 +77,8 @@ const BackgroundScene = () => (
         radial-gradient(1px 1px at 85% 30%, rgba(255,255,255,0.35) 0%, transparent 100%)
       `,
     }} />
-    <div style={{
-      position: 'absolute', inset: 0,
-      background: 'linear-gradient(180deg, #06090e 0%, #0c1520 45%, #111e2e 70%, #090e18 100%)',
-    }} />
-    <svg viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMax slice"
+    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, #06090e 0%, #0c1520 45%, #111e2e 70%, #090e18 100%)' }} />
+    <svg viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice"
       style={{ position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', height: '55%' }}>
       <polygon points="0,400 160,180 320,260 480,140 640,220 800,100 960,200 1120,130 1280,210 1440,150 1440,400" fill="#0d1824"/>
       <polygon points="0,400 100,250 260,310 420,190 580,270 720,160 900,240 1060,170 1200,250 1360,180 1440,220 1440,400" fill="#0a1520"/>
@@ -116,14 +104,12 @@ const BackgroundScene = () => (
 function Register({ onRegisterSuccess, onSwitchToLogin }) {
   const { t } = useLanguage();
 
-  // ✅ State cho 5 fields mới
   const [username, setUsername]               = useState('');
   const [fullName, setFullName]               = useState('');
   const [phone, setPhone]                     = useState('');
   const [email, setEmail]                     = useState('');
   const [password, setPassword]               = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
   const [showPassword, setShowPassword]               = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors]         = useState({});
@@ -131,78 +117,57 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [focusedField, setFocusedField]     = useState(null);
 
-  /* ─── Validators ─── */
   const validateEmail    = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   const validatePhone    = (v) => /^[0-9]{9,11}$/.test(v.replace(/\s/g, ''));
   const validatePassword = (v) => /[A-Z]/.test(v) && /[0-9]/.test(v) && v.length >= 8;
 
-  /* ─── Real-time validation per field ─── */
   const validateField = (fieldName, value) => {
     const errs = { ...errors };
-
     switch (fieldName) {
       case 'username':
-        if (!value.trim()) {
-          errs.username = 'Tên đăng nhập không được để trống';
-        } else if (value.trim().length < 3) {
-          errs.username = 'Tối thiểu 3 ký tự';
-        } else if (!/^[a-zA-Z0-9_]+$/.test(value.trim())) {
-          errs.username = 'Chỉ dùng chữ cái, số và dấu gạch dưới';
-        } else {
-          const users = getUsers();
-          if (users.find(u => u.username === value.trim())) {
-            errs.username = 'Tên đăng nhập đã tồn tại';
-          } else {
-            delete errs.username;
-          }
-        }
-        break;
-
-      case 'fullName':
-        if (!value.trim()) { errs.fullName = 'Họ và tên không được để trống'; }
-        else if (value.trim().length < 2) { errs.fullName = 'Họ và tên quá ngắn'; }
-        else { delete errs.fullName; }
-        break;
-
-      case 'phone':
-        if (!value.trim()) { errs.phone = 'Số điện thoại không được để trống'; }
-        else if (!validatePhone(value)) { errs.phone = 'Số điện thoại không hợp lệ (9–11 chữ số)'; }
-        else { delete errs.phone; }
-        break;
-
-      case 'email':
-        if (!value.trim()) { errs.email = t.validation_email_required; }
-        else if (!validateEmail(value.trim())) { errs.email = t.validation_email_invalid; }
+        if (!value.trim())                          errs.username = t.register_username_required;
+        else if (value.trim().length < 3)           errs.username = t.register_username_short;
+        else if (!/^[a-zA-Z0-9_]+$/.test(value.trim())) errs.username = t.register_username_invalid;
         else {
           const users = getUsers();
-          if (users.find(u => u.email === value.trim())) { errs.email = t.validation_email_exists; }
-          else { delete errs.email; }
+          if (users.find(u => u.username === value.trim())) errs.username = t.register_username_taken;
+          else delete errs.username;
         }
         break;
-
+      case 'fullName':
+        if (!value.trim())             errs.fullName = t.register_fullname_required;
+        else if (value.trim().length < 2) errs.fullName = t.register_fullname_short;
+        else delete errs.fullName;
+        break;
+      case 'phone':
+        if (!value.trim())           errs.phone = t.register_phone_required;
+        else if (!validatePhone(value)) errs.phone = t.register_phone_invalid;
+        else delete errs.phone;
+        break;
+      case 'email':
+        if (!value.trim())              errs.email = t.validation_email_required;
+        else if (!validateEmail(value.trim())) errs.email = t.validation_email_invalid;
+        else {
+          const users = getUsers();
+          if (users.find(u => u.email === value.trim())) errs.email = t.validation_email_exists;
+          else delete errs.email;
+        }
+        break;
       case 'password':
-        if (!value) { errs.password = t.validation_password_required; }
-        else if (!validatePassword(value)) { errs.password = t.validation_password_weak; }
-        else { delete errs.password; }
+        if (!value)                   errs.password = t.validation_password_required;
+        else if (!validatePassword(value)) errs.password = t.validation_password_weak;
+        else delete errs.password;
         break;
-
       case 'confirmPassword':
-        if (!value) { errs.confirmPassword = t.validation_confirm_password_required; }
-        else if (value !== password) { errs.confirmPassword = t.validation_passwords_not_match; }
-        else { delete errs.confirmPassword; }
+        if (!value)              errs.confirmPassword = t.validation_confirm_password_required;
+        else if (value !== password) errs.confirmPassword = t.validation_passwords_not_match;
+        else delete errs.confirmPassword;
         break;
-
       default: break;
     }
-
     setErrors(errs);
   };
 
-  /* ─── Handlers ─── */
-  const handleUsernameChange = (e) => { setUsername(e.target.value); validateField('username', e.target.value); };
-  const handleFullNameChange = (e) => { setFullName(e.target.value); validateField('fullName', e.target.value); };
-  const handlePhoneChange    = (e) => { setPhone(e.target.value);    validateField('phone', e.target.value); };
-  const handleEmailChange    = (e) => { setEmail(e.target.value);    validateField('email', e.target.value); };
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     validateField('password', e.target.value);
@@ -213,26 +178,23 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
     validateField('confirmPassword', e.target.value);
   };
 
-  /* ─── Submit ─── */
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
-
     const u = username.trim(), fn = fullName.trim(), ph = phone.trim();
     const em = email.trim(), pw = password.trim(), cp = confirmPassword.trim();
-
     const errs = {};
 
-    if (!u) errs.username = 'Tên đăng nhập không được để trống';
-    else if (u.length < 3) errs.username = 'Tối thiểu 3 ký tự';
-    else if (!/^[a-zA-Z0-9_]+$/.test(u)) errs.username = 'Chỉ dùng chữ cái, số và dấu gạch dưới';
-    else { const users = getUsers(); if (users.find(x => x.username === u)) errs.username = 'Tên đăng nhập đã tồn tại'; }
+    if (!u) errs.username = t.register_username_required;
+    else if (u.length < 3) errs.username = t.register_username_short;
+    else if (!/^[a-zA-Z0-9_]+$/.test(u)) errs.username = t.register_username_invalid;
+    else { const users = getUsers(); if (users.find(x => x.username === u)) errs.username = t.register_username_taken; }
 
-    if (!fn) errs.fullName = 'Họ và tên không được để trống';
-    else if (fn.length < 2) errs.fullName = 'Họ và tên quá ngắn';
+    if (!fn) errs.fullName = t.register_fullname_required;
+    else if (fn.length < 2) errs.fullName = t.register_fullname_short;
 
-    if (!ph) errs.phone = 'Số điện thoại không được để trống';
-    else if (!validatePhone(ph)) errs.phone = 'Số điện thoại không hợp lệ (9–11 chữ số)';
+    if (!ph) errs.phone = t.register_phone_required;
+    else if (!validatePhone(ph)) errs.phone = t.register_phone_invalid;
 
     if (!em) errs.email = t.validation_email_required;
     else if (!validateEmail(em)) errs.email = t.validation_email_invalid;
@@ -248,7 +210,6 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
 
     setIsLoading(true);
     setTimeout(() => {
-      // ✅ Gọi registerUser với 5 tham số
       const result = registerUser(u, fn, ph, em, pw);
       if (result.success) {
         setSuccessMessage(t.register_success);
@@ -260,7 +221,6 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
     }, 1000);
   };
 
-  /* ─── Helpers ─── */
   const getBorderColor = (field) => {
     if (errors[field]) return theme.borderError;
     const validMap = {
@@ -276,26 +236,20 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
   };
 
   const inputStyle = (field) => ({
-    width: '100%',
-    padding: '15px 48px 15px 18px',
-    fontFamily: theme.fontFamily,
-    fontSize: '0.88rem',
-    color: theme.text,
+    width: '100%', padding: '15px 48px 15px 18px',
+    fontFamily: theme.fontFamily, fontSize: '0.88rem', color: theme.text,
     background: focusedField === field ? theme.inputBgFocus : theme.inputBg,
     border: `1px solid ${getBorderColor(field)}`,
-    borderRadius: theme.radius,
-    outline: 'none',
+    borderRadius: theme.radius, outline: 'none',
     boxShadow: focusedField === field ? '0 0 0 3px rgba(255,255,255,0.05)' : 'none',
-    transition: 'all 0.2s ease',
-    opacity: isLoading ? 0.6 : 1,
+    transition: 'all 0.2s ease', opacity: isLoading ? 0.6 : 1,
   });
 
-  const feedback = (isError) => ({
+  const fb = (isErr) => ({
     fontSize: '0.75rem', marginTop: '5px', marginLeft: '4px',
-    color: isError ? '#fca5a5' : '#86efac',
+    color: isErr ? '#fca5a5' : '#86efac',
   });
 
-  /* ─── Icon helper ─── */
   const IconSlot = ({ children }) => (
     <span style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: theme.textMuted }}>
       {children}
@@ -345,164 +299,123 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
               <div style={{
                 color: '#fca5a5', fontSize: '0.82rem', textAlign: 'center',
                 padding: '10px 14px', marginBottom: '14px',
-                background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)',
-                borderRadius: '9px',
+                background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: '9px',
               }}>{errors.general}</div>
             )}
-
             {successMessage && (
               <div style={{
                 color: '#86efac', fontSize: '0.82rem', textAlign: 'center',
                 padding: '10px 14px', marginBottom: '14px',
-                background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.28)',
-                borderRadius: '9px',
+                background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.28)', borderRadius: '9px',
               }}>{successMessage}</div>
             )}
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
-              {/* ── Username ── */}
+              {/* Username */}
               <div>
                 <div style={{ position: 'relative' }}>
-                  <input
-                    type="text"
-                    style={inputStyle('username')}
-                    value={username}
-                    onChange={handleUsernameChange}
+                  <input type="text" style={inputStyle('username')} value={username}
+                    onChange={(e) => { setUsername(e.target.value); validateField('username', e.target.value); }}
                     onBlur={() => { setFocusedField(null); validateField('username', username); }}
                     onFocus={() => setFocusedField('username')}
-                    placeholder="Tên đăng nhập"
-                    disabled={isLoading}
-                    autoComplete="username"
-                  />
+                    placeholder={t.register_username_placeholder} disabled={isLoading} autoComplete="username" />
                   <IconSlot><IconUser /></IconSlot>
                 </div>
-                {errors.username && <div style={feedback(true)}>❌ {errors.username}</div>}
+                {errors.username && <div style={fb(true)}>❌ {errors.username}</div>}
                 {!errors.username && username.trim().length >= 3 && /^[a-zA-Z0-9_]+$/.test(username.trim()) && (
-                  <div style={feedback(false)}>✓ Tên đăng nhập hợp lệ</div>
+                  <div style={fb(false)}>✓ {t.register_username_valid}</div>
                 )}
               </div>
 
-              {/* ── Full Name ── */}
+              {/* Full Name */}
               <div>
                 <div style={{ position: 'relative' }}>
-                  <input
-                    type="text"
-                    style={inputStyle('fullName')}
-                    value={fullName}
-                    onChange={handleFullNameChange}
+                  <input type="text" style={inputStyle('fullName')} value={fullName}
+                    onChange={(e) => { setFullName(e.target.value); validateField('fullName', e.target.value); }}
                     onBlur={() => { setFocusedField(null); validateField('fullName', fullName); }}
                     onFocus={() => setFocusedField('fullName')}
-                    placeholder="Họ và tên"
-                    disabled={isLoading}
-                    autoComplete="name"
-                  />
+                    placeholder={t.register_fullname_placeholder} disabled={isLoading} autoComplete="name" />
                   <IconSlot><IconCard /></IconSlot>
                 </div>
-                {errors.fullName && <div style={feedback(true)}>❌ {errors.fullName}</div>}
+                {errors.fullName && <div style={fb(true)}>❌ {errors.fullName}</div>}
                 {!errors.fullName && fullName.trim().length >= 2 && (
-                  <div style={feedback(false)}>✓ Họ và tên hợp lệ</div>
+                  <div style={fb(false)}>✓ {t.register_fullname_valid}</div>
                 )}
               </div>
 
-              {/* ── Phone ── */}
+              {/* Phone */}
               <div>
                 <div style={{ position: 'relative' }}>
-                  <input
-                    type="tel"
-                    style={inputStyle('phone')}
-                    value={phone}
-                    onChange={handlePhoneChange}
+                  <input type="tel" style={inputStyle('phone')} value={phone}
+                    onChange={(e) => { setPhone(e.target.value); validateField('phone', e.target.value); }}
                     onBlur={() => { setFocusedField(null); validateField('phone', phone); }}
                     onFocus={() => setFocusedField('phone')}
-                    placeholder="Số điện thoại"
-                    disabled={isLoading}
-                    autoComplete="tel"
-                  />
+                    placeholder={t.register_phone_placeholder} disabled={isLoading} autoComplete="tel" />
                   <IconSlot><IconPhone /></IconSlot>
                 </div>
-                {errors.phone && <div style={feedback(true)}>❌ {errors.phone}</div>}
+                {errors.phone && <div style={fb(true)}>❌ {errors.phone}</div>}
                 {!errors.phone && phone.trim() && validatePhone(phone) && (
-                  <div style={feedback(false)}>✓ Số điện thoại hợp lệ</div>
+                  <div style={fb(false)}>✓ {t.register_phone_valid}</div>
                 )}
               </div>
 
-              {/* ── Email ── */}
+              {/* Email */}
               <div>
                 <div style={{ position: 'relative' }}>
-                  <input
-                    type="email"
-                    style={inputStyle('email')}
-                    value={email}
-                    onChange={handleEmailChange}
+                  <input type="email" style={inputStyle('email')} value={email}
+                    onChange={(e) => { setEmail(e.target.value); validateField('email', e.target.value); }}
                     onBlur={() => { setFocusedField(null); validateField('email', email); }}
                     onFocus={() => setFocusedField('email')}
-                    placeholder={t.register_email_placeholder}
-                    disabled={isLoading}
-                    autoComplete="email"
-                  />
+                    placeholder={t.register_email_placeholder} disabled={isLoading} autoComplete="email" />
                   <IconSlot><IconMail /></IconSlot>
                 </div>
-                {errors.email && <div style={feedback(true)}>❌ {errors.email}</div>}
+                {errors.email && <div style={fb(true)}>❌ {errors.email}</div>}
                 {!errors.email && email.trim() && validateEmail(email.trim()) && (
-                  <div style={feedback(false)}>✓ {t.validation_email_valid}</div>
+                  <div style={fb(false)}>✓ {t.validation_email_valid}</div>
                 )}
               </div>
 
-              {/* ── Password ── */}
+              {/* Password */}
               <div>
                 <div style={{ position: 'relative' }}>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    style={inputStyle('password')}
-                    value={password}
+                  <input type={showPassword ? 'text' : 'password'} style={inputStyle('password')} value={password}
                     onChange={handlePasswordChange}
                     onBlur={() => { setFocusedField(null); validateField('password', password); }}
                     onFocus={() => setFocusedField('password')}
-                    placeholder={t.register_password_placeholder}
-                    disabled={isLoading}
-                    autoComplete="new-password"
-                  />
+                    placeholder={t.register_password_placeholder} disabled={isLoading} autoComplete="new-password" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} disabled={isLoading}
                     style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: theme.textMuted, display: 'flex', padding: 0 }}>
                     {showPassword ? <IconEyeOff /> : <IconEye />}
                   </button>
                 </div>
-                {errors.password && <div style={feedback(true)}>❌ {errors.password}</div>}
+                {errors.password && <div style={fb(true)}>❌ {errors.password}</div>}
                 {!errors.password && password && validatePassword(password) && (
-                  <div style={feedback(false)}>✓ {t.validation_password_strong}</div>
+                  <div style={fb(false)}>✓ {t.validation_password_strong}</div>
                 )}
               </div>
 
-              {/* ── Confirm Password ── */}
+              {/* Confirm Password */}
               <div>
                 <div style={{ position: 'relative' }}>
-                  <input
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    style={inputStyle('confirmPassword')}
-                    value={confirmPassword}
+                  <input type={showConfirmPassword ? 'text' : 'password'} style={inputStyle('confirmPassword')} value={confirmPassword}
                     onChange={handleConfirmPasswordChange}
                     onBlur={() => { setFocusedField(null); validateField('confirmPassword', confirmPassword); }}
                     onFocus={() => setFocusedField('confirmPassword')}
-                    placeholder={t.register_confirm_password_placeholder}
-                    disabled={isLoading}
-                    autoComplete="new-password"
-                  />
+                    placeholder={t.register_confirm_password_placeholder} disabled={isLoading} autoComplete="new-password" />
                   <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} disabled={isLoading}
                     style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: theme.textMuted, display: 'flex', padding: 0 }}>
                     {showConfirmPassword ? <IconEyeOff /> : <IconEye />}
                   </button>
                 </div>
-                {errors.confirmPassword && <div style={feedback(true)}>❌ {errors.confirmPassword}</div>}
+                {errors.confirmPassword && <div style={fb(true)}>❌ {errors.confirmPassword}</div>}
                 {!errors.confirmPassword && confirmPassword && confirmPassword === password && (
-                  <div style={feedback(false)}>✓ {t.validation_passwords_match}</div>
+                  <div style={fb(false)}>✓ {t.validation_passwords_match}</div>
                 )}
               </div>
 
-              {/* ── Submit ── */}
-              <button
-                type="submit"
-                disabled={isLoading}
+              {/* Submit */}
+              <button type="submit" disabled={isLoading}
                 style={{
                   width: '100%', padding: '15px',
                   background: isLoading ? theme.btnDisabled : theme.btnBg,
@@ -520,10 +433,8 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
                 {isLoading && (
                   <span style={{
                     width: 16, height: 16, borderRadius: '50%',
-                    border: '2px solid rgba(255,255,255,0.3)',
-                    borderTopColor: 'rgba(255,255,255,0.85)',
-                    animation: 'spin 0.8s linear infinite',
-                    display: 'inline-block',
+                    border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'rgba(255,255,255,0.85)',
+                    animation: 'spin 0.8s linear infinite', display: 'inline-block',
                   }} />
                 )}
                 {isLoading ? t.register_processing : t.register_button}
@@ -532,15 +443,8 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
 
             <p style={{ textAlign: 'center', marginTop: '18px', fontSize: '0.82rem', color: theme.textMuted }}>
               {t.register_link_text}{' '}
-              <button
-                onClick={onSwitchToLogin}
-                disabled={isLoading}
-                style={{
-                  background: 'none', border: 'none', cursor: isLoading ? 'not-allowed' : 'pointer',
-                  color: theme.text, fontFamily: theme.fontFamily,
-                  fontSize: '0.82rem', fontWeight: 700, padding: 0,
-                }}
-              >
+              <button onClick={onSwitchToLogin} disabled={isLoading}
+                style={{ background: 'none', border: 'none', cursor: isLoading ? 'not-allowed' : 'pointer', color: theme.text, fontFamily: theme.fontFamily, fontSize: '0.82rem', fontWeight: 700, padding: 0 }}>
                 {t.register_link_button}
               </button>
             </p>
