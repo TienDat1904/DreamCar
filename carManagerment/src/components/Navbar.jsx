@@ -1,31 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
-import { logoutUser } from '../services/localStorageService';
 import { useLanguage } from '../services/LanguageContext';
 
 const MENU = [
-  { key: 'Home', labelKey: 'nav_home' },
-  { key: 'Cars', labelKey: 'nav_cars' },
-  { key: 'Cart', labelKey: 'nav_cart' },
+  { key: 'Home',    labelKey: 'nav_home' },
+  { key: 'Cars',    labelKey: 'nav_cars' },
+  { key: 'Cart',    labelKey: 'nav_cart' },
   { key: 'Rentals', labelKey: 'nav_rentals' },
   { key: 'Contact', labelKey: 'nav_contact' },
 ];
 
-function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
+function Navbar({ currentPage, onNavigate, currentUser }) {
   const { language, switchLanguage, t } = useLanguage();
-
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
-
+  const [langOpen, setLangOpen]     = useState(false);
   const langRef = useRef(null);
 
-  // Close dropdown outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (langRef.current && !langRef.current.contains(e.target)) {
-        setLangOpen(false);
-      }
+      if (langRef.current && !langRef.current.contains(e.target)) setLangOpen(false);
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
@@ -35,9 +28,10 @@ function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
     setMobileOpen(false);
   };
 
-  const handleLogout = () => {
-    logoutUser();
-    onLogout();
+  // Lấy 1-2 chữ cái đầu để hiển thị trong avatar
+  const getInitials = () => {
+    const name = currentUser?.fullName || currentUser?.username || '';
+    return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?';
   };
 
   return (
@@ -66,30 +60,20 @@ function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
 
         {/* LANGUAGE */}
         <div className="lang-dropdown" ref={langRef}>
-          <button
-            className="lang-btn"
-            onClick={() => setLangOpen((prev) => !prev)}
-          >
+          <button className="lang-btn" onClick={() => setLangOpen(prev => !prev)}>
             🌐 {language.toUpperCase()}
           </button>
-
           {langOpen && (
             <div className="lang-menu">
               <div
                 className={`lang-item ${language === 'en' ? 'active' : ''}`}
-                onClick={() => {
-                  switchLanguage('en');
-                  setLangOpen(false);
-                }}
+                onClick={() => { switchLanguage('en'); setLangOpen(false); }}
               >
                 {t.lang_english}
               </div>
               <div
                 className={`lang-item ${language === 'vi' ? 'active' : ''}`}
-                onClick={() => {
-                  switchLanguage('vi');
-                  setLangOpen(false);
-                }}
+                onClick={() => { switchLanguage('vi'); setLangOpen(false); }}
               >
                 {t.lang_vietnamese}
               </div>
@@ -97,23 +81,19 @@ function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
           )}
         </div>
 
-        {/* USER */}
+        {/* ✅ Avatar button → Profile page */}
         {currentUser && (
-          <div className="user-section">
-            <span className="user-email" title={currentUser.email}>
-              {currentUser.email}
-            </span>
-            <button className="logout-btn" onClick={handleLogout}>
-              {t.nav_logout}
-            </button>
-          </div>
+          <button
+            className={`navbar-avatar ${currentPage === 'Profile' ? 'active' : ''}`}
+            onClick={() => handleNavigate('Profile')}
+            title={currentUser.fullName || currentUser.username}
+          >
+            {getInitials()}
+          </button>
         )}
 
         {/* HAMBURGER */}
-        <button
-          className="hamburger-btn"
-          onClick={() => setMobileOpen((prev) => !prev)}
-        >
+        <button className="hamburger-btn" onClick={() => setMobileOpen(prev => !prev)}>
           ☰
         </button>
       </div>
@@ -131,9 +111,13 @@ function Navbar({ currentPage, onNavigate, currentUser, onLogout }) {
             </div>
           ))}
 
+          {/* ✅ Profile link trong mobile menu */}
           {currentUser && (
-            <div className="mobile-item logout" onClick={handleLogout}>
-              {t.nav_logout} ({currentUser.email})
+            <div
+              className={`mobile-item ${currentPage === 'Profile' ? 'active' : ''}`}
+              onClick={() => handleNavigate('Profile')}
+            >
+              👤 {currentUser.fullName || currentUser.username}
             </div>
           )}
         </div>

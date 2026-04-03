@@ -15,27 +15,27 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CarDetailPage from './pages/CarDetailPage';
 import Contact from './pages/Contact';
+import Profile from './pages/Profile'; // ✅ NEW
 
 import './App.css';
 
-// ✅ Centralized pages (clean + dễ maintain)
 const PAGES = {
-  HOME: 'Home',
-  CARS: 'Cars',
-  CART: 'Cart',
+  HOME:    'Home',
+  CARS:    'Cars',
+  CART:    'Cart',
   RENTALS: 'Rentals',
-  DETAIL: 'CarDetail',
+  DETAIL:  'CarDetail',
   CONTACT: 'Contact',
+  PROFILE: 'Profile', // ✅ NEW
 };
 
 function AppContent() {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(PAGES.HOME);
-  const [authPage, setAuthPage] = useState('login');
-  const [isLoading, setIsLoading] = useState(true);
+  const [authPage, setAuthPage]       = useState('login');
+  const [isLoading, setIsLoading]     = useState(true);
   const [selectedCar, setSelectedCar] = useState(null);
 
-  // ✅ Init user
   useEffect(() => {
     initializeDemoUser();
     const user = getCurrentUser();
@@ -43,20 +43,18 @@ function AppContent() {
     setIsLoading(false);
   }, []);
 
-  // ✅ Logout
+  // ✅ Logout — được gọi từ Profile (không còn ở Navbar)
   const handleLogout = () => {
     setCurrentUser(null);
     setCurrentPage(PAGES.HOME);
     setAuthPage('login');
   };
 
-  // ✅ Select car → detail page
   const handleSelectCar = (car) => {
     setSelectedCar(car);
     setCurrentPage(PAGES.DETAIL);
   };
 
-  // ✅ Render page (core logic)
   const renderPage = () => {
     switch (currentPage) {
       case PAGES.HOME:
@@ -68,9 +66,7 @@ function AppContent() {
         );
 
       case PAGES.CARS:
-        return (
-          <Cars onCardClick={handleSelectCar} />
-        );
+        return <Cars onCardClick={handleSelectCar} />;
 
       case PAGES.DETAIL:
         return (
@@ -96,20 +92,28 @@ function AppContent() {
           />
         );
 
-      case PAGES.CONTACT: // ✅ NEW
+      case PAGES.CONTACT:
         return <Contact />;
+
+      // ✅ Profile — truyền currentUser + onLogout + onNavigate
+      case PAGES.PROFILE:
+        return (
+          <Profile
+            currentUser={currentUser}
+            onLogout={handleLogout}
+            onNavigate={setCurrentPage}
+          />
+        );
 
       default:
         return <Home />;
     }
   };
 
-  // ✅ Loading
   if (isLoading) {
     return <div className="app-loading">Loading...</div>;
   }
 
-  // ✅ Auth
   if (!currentUser) {
     return authPage === 'login' ? (
       <Login
@@ -124,14 +128,13 @@ function AppContent() {
     );
   }
 
-  // ✅ Main app
   return (
     <>
+      {/* ✅ Không còn truyền onLogout cho Navbar */}
       <Navbar
         currentPage={currentPage}
         onNavigate={setCurrentPage}
         currentUser={currentUser}
-        onLogout={handleLogout}
       />
 
       <main className="app-content">
@@ -141,7 +144,6 @@ function AppContent() {
   );
 }
 
-// ✅ Providers (giữ nguyên)
 function App() {
   return (
     <LanguageProvider>
