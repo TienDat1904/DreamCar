@@ -11,28 +11,16 @@ function Cart({ onNavigateToCars, onNavigateToHome }) {
   const [cartItems, setCartItems] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  // ================= LOAD =================
-  useEffect(() => {
-    setCartItems(getCart());
-  }, []);
+  useEffect(() => { setCartItems(getCart()); }, []);
 
-  // ================= HELPERS =================
-  const formatPrice = (value) => {
-    return `$${value.toLocaleString()}`;
-  };
+  const formatPrice = (v) => `$${Number(v).toLocaleString()}`;
 
-  const total = useMemo(() => {
-    return cartItems.reduce((sum, item) => {
-      const price = Number(item.buyPrice) || 0;
-      const qty = Number(item.quantity) || 1;
-      return sum + price * qty;
-    }, 0);
-  }, [cartItems]);
+  const total = useMemo(() =>
+    cartItems.reduce((sum, item) => sum + (Number(item.buyPrice) || 0) * (Number(item.quantity) || 1), 0),
+  [cartItems]);
 
-  // ================= ACTIONS =================
   const handleRemove = useCallback((id) => {
-    const updated = removeFromCart(id);
-    setCartItems(updated);
+    setCartItems(removeFromCart(id));
     showToast(t.cart_remove_success, 'success');
   }, [showToast, t]);
 
@@ -45,41 +33,27 @@ function Cart({ onNavigateToCars, onNavigateToHome }) {
 
   const handleCheckout = useCallback(() => {
     showToast(t.cart_checkout_success, 'success');
-
-    setTimeout(() => {
-      clearCart();
-      setCartItems([]);
-    }, 1000);
+    setTimeout(() => { clearCart(); setCartItems([]); }, 1000);
   }, [showToast, t]);
 
-  // ================= EMPTY =================
   if (cartItems.length === 0) {
     return (
-      <div className="cart">
-        <h1 className="cart-title">{t.cart_title}</h1>
-
+      <div className="cart-page">
         <div className="cart-empty">
-          <h3>{t.cart_empty_message}</h3>
+          <div className="cart-empty-icon">🛒</div>
+          <h2>{t.cart_empty_message}</h2>
           <p>{t.cart_empty_subtitle}</p>
-
           <div className="cart-empty-actions">
-            <button className="btn-primary" onClick={onNavigateToCars}>
-              {t.cart_continue_shopping}
-            </button>
-
-            <button className="btn-secondary" onClick={onNavigateToHome}>
-              {t.cart_back_home}
-            </button>
+            <button className="cart-btn-primary" onClick={onNavigateToCars}>{t.cart_continue_shopping}</button>
+            <button className="cart-btn-ghost"   onClick={onNavigateToHome}>{t.cart_back_home}</button>
           </div>
         </div>
       </div>
     );
   }
 
-  // ================= MAIN =================
   return (
-    <div className="cart">
-
+    <div className="cart-page">
       {showConfirmModal && (
         <ConfirmModal
           title={t.cart_confirm_title}
@@ -92,53 +66,56 @@ function Cart({ onNavigateToCars, onNavigateToHome }) {
         />
       )}
 
-      {/* Header */}
       <div className="cart-header">
-        <h1>{t.cart_title}</h1>
+        <div className="cart-header-label">SHOPPING CART</div>
+        <h1>{t.cart_title || 'Giỏ Hàng'}</h1>
         <p>{cartItems.length} {t.cart_items}</p>
       </div>
 
-      {/* List */}
-      <div className="cart-list">
-        {cartItems.map((item) => (
-          <div key={item.id} className="cart-item">
-
-            <div className="cart-item-info">
-              <h3>{item.name}</h3>
-              <p className="cart-item-price">
-                {formatPrice(item.buyPrice)} × {item.quantity || 1}
-              </p>
+      <div className="cart-body">
+        {/* List */}
+        <div className="cart-list">
+          {cartItems.map((item) => (
+            <div key={item.id} className="cart-item">
+              <div className="cart-item-img">
+                {item.image
+                  ? <img src={item.image} alt={item.name} />
+                  : <span className="cart-item-placeholder">🚗</span>
+                }
+              </div>
+              <div className="cart-item-info">
+                <h3>{item.name}</h3>
+                <p className="cart-item-sub">{item.brand} · {item.year}</p>
+                <p className="cart-item-price">{formatPrice(item.buyPrice)} × {item.quantity || 1}</p>
+              </div>
+              <div className="cart-item-total">
+                {formatPrice((Number(item.buyPrice) || 0) * (item.quantity || 1))}
+              </div>
+              <button className="cart-remove-btn" onClick={() => handleRemove(item.id)} title="Remove">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6l-1 14H6L5 6"/>
+                  <path d="M10 11v6M14 11v6"/>
+                  <path d="M9 6V4h6v2"/>
+                </svg>
+              </button>
             </div>
+          ))}
+        </div>
 
-            <button
-              className="cart-remove"
-              onClick={() => handleRemove(item.id)}
-            >
-              {t.cart_remove_button}
-            </button>
+        {/* Summary */}
+        <div className="cart-summary">
+          <div className="cart-summary-label">ORDER SUMMARY</div>
+          <div className="cart-summary-row">
+            <span>{t.cart_total}</span>
+            <span className="cart-total-price">{formatPrice(total)}</span>
           </div>
-        ))}
-      </div>
-
-      {/* Total */}
-      <div className="cart-summary">
-        <div className="cart-summary-row">
-          <span>{t.cart_total}</span>
-          <span className="cart-total-price">{formatPrice(total)}</span>
+          <div className="cart-actions">
+            <button className="cart-btn-primary" onClick={handleCheckout}>{t.cart_checkout_button}</button>
+            <button className="cart-btn-danger"  onClick={() => setShowConfirmModal(true)}>{t.cart_clear_button}</button>
+          </div>
         </div>
       </div>
-
-      {/* Actions */}
-      <div className="cart-actions">
-        <button className="btn-success" onClick={handleCheckout}>
-          {t.cart_checkout_button}
-        </button>
-
-        <button className="btn-danger" onClick={() => setShowConfirmModal(true)}>
-          {t.cart_clear_button}
-        </button>
-      </div>
-
     </div>
   );
 }

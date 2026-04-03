@@ -1,21 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
 .cars-page {
-  padding: 80px 8%;
-  background: #f8fafc;
   min-height: 100vh;
+  background: #09090b;
+  padding: 60px 8% 80px;
+  font-family: 'DM Sans', sans-serif;
 }
 
+/* ── Header ── */
 .cars-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 48px;
 }
 
+.cars-header-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #f59e0b;
+  margin-bottom: 12px;
+}
+
+.cars-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  color: #f1f1f3;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+
+.cars-header p {
+  color: #71717a;
+  font-size: 0.95rem;
+  font-weight: 300;
+}
+
+/* ── Filter ── */
+.cars-filter {
+  margin-bottom: 28px;
+}
+
+/* ── Count ── */
+.cars-count {
+  font-size: 0.82rem;
+  color: #52525b;
+  margin-bottom: 28px;
+  letter-spacing: 0.02em;
+}
+
+.cars-count span {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+/* ── Grid ── */
 .cars-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 28px;
+  gap: 24px;
 }
 
+.car-card-wrapper {
+  animation: cardFadeUp 0.5s calc(var(--i, 0) * 0.06s) ease both;
+}
+
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Empty ── */
 .cars-empty {
   text-align: center;
   padding: 100px 20px;
+}
+
+.cars-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 18px;
+  opacity: 0.5;
+}
+
+.cars-empty h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #a1a1aa;
+  margin-bottom: 8px;
+}
+
+.cars-empty p {
+  color: #52525b;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 768px) {
+  .cars-page { padding: 40px 5% 60px; }
+  .cars-grid  { grid-template-columns: 1fr; }
 }

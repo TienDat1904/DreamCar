@@ -6,43 +6,37 @@ import { useLanguage } from '../services/LanguageContext';
 
 function Cars({ onCardClick }) {
   const { t } = useLanguage();
-
-  // chỉ cần 1 state
   const [filteredCars, setFilteredCars] = useState(cars);
 
   return (
     <div className="cars-page">
-      {/* HEADER */}
       <div className="cars-header">
+        <div className="cars-header-label">SHOWROOM</div>
         <h1>{t.cars_title}</h1>
         <p>{t.cars_subtitle}</p>
       </div>
 
-      {/* FILTER */}
       <div className="cars-filter">
         <FilterBar cars={cars} onFilterChange={setFilteredCars} />
       </div>
 
-      {/* RESULT COUNT */}
       <div className="cars-count">
-        {filteredCars.length} {t.filter_results}
+        <span>{filteredCars.length}</span> {t.filter_results}
       </div>
 
-      {/* GRID */}
       {filteredCars.length > 0 ? (
         <div className="cars-grid">
-          {filteredCars.map((car) => (
-            <CarCard
-              key={car.id}
-              car={car}
-              onCardClick={() => onCardClick(car)}
-            />
+          {filteredCars.map((car, i) => (
+            <div key={car.id} className="car-card-wrapper" style={{ '--i': i }}>
+              <CarCard car={car} onCardClick={() => onCardClick(car)} />
+            </div>
           ))}
         </div>
       ) : (
         <div className="cars-empty">
+          <div className="cars-empty-icon">🔍</div>
           <h3>{t.filter_no_results}</h3>
-          <p>{t.filter_search_placeholder || 'Try adjusting your filters'}</p>
+          <p>{t.cars_try_adjust || 'Try adjusting your filters'}</p>
         </div>
       )}
     </div>

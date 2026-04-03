@@ -28,6 +28,7 @@ export const initializeDemoUser = () => {
       localStorage.setItem('currentUser', JSON.stringify({
         username: demoUser.username,
         fullName: demoUser.fullName,
+        phone: demoUser.phone,
         email: demoUser.email,
       }));
 
@@ -180,9 +181,10 @@ export const loginUser = (username, password) => {
     localStorage.setItem('currentUser', JSON.stringify({
       username: user.username,
       fullName: user.fullName,
+      phone: user.phone,
       email: user.email,
     }));
-    return { success: true, user: { username: user.username, fullName: user.fullName, email: user.email } };
+    return { success: true, user: { username: user.username, fullName: user.fullName, phone: user.phone, email: user.email } };
   } catch (error) {
     console.error('Error logging in:', error);
     return { success: false, message: 'Login failed' };
