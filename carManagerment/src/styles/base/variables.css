@@ -1,20 +1,51 @@
 :root {
-  --primary-color: #1e3a8a;
-  --accent-color: #f59e0b;
+  /* ── Brand ── */
+  --accent:       #f59e0b;
+  --accent-dim:   rgba(245,158,11,0.12);
+  --accent-glow:  rgba(245,158,11,0.25);
 
-  --text-main: #1f2937;
-  --text-sub: #6b7280;
+  /* ── Backgrounds ── */
+  --bg:           #09090b;
+  --bg-2:         #0c0c10;
+  --bg-3:         #111114;
+  --bg-card:      rgba(255,255,255,0.04);
+  --bg-card-hov:  rgba(255,255,255,0.07);
 
-  --bg-main: #ffffff;
-  --bg-soft: #f8fafc;
+  /* ── Borders ── */
+  --border:       rgba(255,255,255,0.08);
+  --border-hov:   rgba(255,255,255,0.18);
+  --border-focus: rgba(255,255,255,0.38);
 
-  --border: #e5e7eb;
+  /* ── Text ── */
+  --text:         #f1f1f3;
+  --text-muted:   #71717a;
+  --text-dim:     #3f3f46;
 
-  --shadow-sm: 0 4px 10px rgba(0,0,0,0.05);
-  --shadow-md: 0 10px 30px rgba(0,0,0,0.1);
+  /* ── Danger ── */
+  --danger:       #ef4444;
+  --danger-dim:   rgba(239,68,68,0.12);
+  --danger-border:rgba(239,68,68,0.28);
 
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  /* ── Radius ── */
+  --radius-sm:    8px;
+  --radius-md:    12px;
+  --radius-lg:    16px;
+  --radius-xl:    24px;
+  --radius-pill:  999px;
 
-  --font-main: 'Inter', system-ui, sans-serif;
+  /* ── Shadows ── */
+  --shadow-sm:    0 4px 20px rgba(0,0,0,0.3);
+  --shadow-md:    0 12px 40px rgba(0,0,0,0.45);
+  --shadow-card:  0 20px 60px rgba(0,0,0,0.5);
+
+  /* ── Fonts ── */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', 'Sora', system-ui, sans-serif;
+
+  /* Legacy aliases kept for compatibility */
+  --primary-color: #f59e0b;
+  --text-main:     #f1f1f3;
+  --text-sub:      #71717a;
+  --bg-main:       #09090b;
+  --bg-soft:       #111114;
 }

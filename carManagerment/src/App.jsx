@@ -15,7 +15,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CarDetailPage from './pages/CarDetailPage';
 import Contact from './pages/Contact';
-import Profile from './pages/Profile'; // ✅ NEW
+import Profile from './pages/Profile';
 
 import './App.css';
 
@@ -26,7 +26,7 @@ const PAGES = {
   RENTALS: 'Rentals',
   DETAIL:  'CarDetail',
   CONTACT: 'Contact',
-  PROFILE: 'Profile', // ✅ NEW
+  PROFILE: 'Profile',
 };
 
 function AppContent() {
@@ -43,7 +43,6 @@ function AppContent() {
     setIsLoading(false);
   }, []);
 
-  // ✅ Logout — được gọi từ Profile (không còn ở Navbar)
   const handleLogout = () => {
     setCurrentUser(null);
     setCurrentPage(PAGES.HOME);
@@ -64,10 +63,8 @@ function AppContent() {
             onSelectCar={handleSelectCar}
           />
         );
-
       case PAGES.CARS:
         return <Cars onCardClick={handleSelectCar} />;
-
       case PAGES.DETAIL:
         return (
           <CarDetailPage
@@ -75,7 +72,6 @@ function AppContent() {
             onBack={() => setCurrentPage(PAGES.CARS)}
           />
         );
-
       case PAGES.CART:
         return (
           <Cart
@@ -83,7 +79,6 @@ function AppContent() {
             onNavigateToHome={() => setCurrentPage(PAGES.HOME)}
           />
         );
-
       case PAGES.RENTALS:
         return (
           <Rentals
@@ -91,11 +86,8 @@ function AppContent() {
             onNavigateToHome={() => setCurrentPage(PAGES.HOME)}
           />
         );
-
       case PAGES.CONTACT:
         return <Contact />;
-
-      // ✅ Profile — truyền currentUser + onLogout + onNavigate
       case PAGES.PROFILE:
         return (
           <Profile
@@ -104,9 +96,8 @@ function AppContent() {
             onNavigate={setCurrentPage}
           />
         );
-
       default:
-        return <Home />;
+        return <Home onNavigateToCars={() => setCurrentPage(PAGES.CARS)} onSelectCar={handleSelectCar} />;
     }
   };
 
@@ -130,13 +121,11 @@ function AppContent() {
 
   return (
     <>
-      {/* ✅ Không còn truyền onLogout cho Navbar */}
       <Navbar
         currentPage={currentPage}
         onNavigate={setCurrentPage}
         currentUser={currentUser}
       />
-
       <main className="app-content">
         {renderPage()}
       </main>

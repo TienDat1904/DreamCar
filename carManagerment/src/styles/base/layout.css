@@ -1,7 +1,6 @@
+/* Remove max-width on #root so dark pages can go full-width */
 #root {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
+  min-height: 100vh;
 }
 
 .section {
@@ -11,4 +10,5 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }

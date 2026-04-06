@@ -1,128 +1,96 @@
-import React from 'react';
+import { useEffect } from 'react';
 
 function ConfirmModal({ title, message, onConfirm, onCancel, confirmText, cancelText, isDanger = false }) {
-  const styles = {
-    overlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 999,
-      animation: 'fadeIn 0.3s ease-out',
-    },
-    modal: {
-      backgroundColor: 'white',
-      borderRadius: '12px',
-      padding: '30px',
-      maxWidth: '400px',
-      width: '90%',
-      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-      animation: 'slideUp 0.3s ease-out',
-    },
-    title: {
-      fontSize: '22px',
-      fontWeight: 'bold',
-      color: '#2c3e50',
-      margin: '0 0 16px 0',
-    },
-    message: {
-      fontSize: '14px',
-      color: '#7f8c8d',
-      lineHeight: '1.6',
-      margin: '0 0 24px 0',
-    },
-    buttonContainer: {
-      display: 'flex',
-      gap: '12px',
-      justifyContent: 'flex-end',
-    },
-    button: {
-      padding: '10px 20px',
-      border: 'none',
-      borderRadius: '6px',
-      cursor: 'pointer',
-      fontWeight: 'bold',
-      fontSize: '14px',
-      transition: 'all 0.3s ease',
-      minWidth: '100px',
-    },
-    cancelBtn: {
-      backgroundColor: '#ecf0f1',
-      color: '#2c3e50',
-    },
-    confirmBtn: {
-      backgroundColor: isDanger ? '#e74c3c' : '#3498db',
-      color: 'white',
-    },
-  };
 
-  // Add animations
-  React.useEffect(() => {
-    const style = document.createElement('style');
-    if (!document.querySelector('style[data-confirm-modal-animation]')) {
-      style.setAttribute('data-confirm-modal-animation', 'true');
-      style.textContent = `
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-          from {
-            transform: translateY(20px);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-      `;
-      document.head.appendChild(style);
-    }
-  }, []);
+  // Close on Escape key
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape') onCancel(); };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [onCancel]);
 
   return (
-    <div style={styles.overlay} onClick={onCancel}>
-      <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <h2 style={styles.title}>{title}</h2>
-        <p style={styles.message}>{message}</p>
-        <div style={styles.buttonContainer}>
+    <div
+      style={{
+        position: 'fixed', inset: 0,
+        background: 'rgba(0,0,0,0.75)',
+        backdropFilter: 'blur(4px)',
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
+        zIndex: 2000, padding: '20px',
+        animation: 'cmFadeIn 0.2s ease',
+      }}
+      onClick={onCancel}
+    >
+      <style>{`
+        @keyframes cmFadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes cmSlideUp { from{opacity:0;transform:scale(0.94) translateY(12px)} to{opacity:1;transform:scale(1) translateY(0)} }
+        .cm-cancel:hover { background: rgba(255,255,255,0.09) !important; color: #f1f1f3 !important; }
+        .cm-confirm-danger:hover  { background: #dc2626 !important; }
+        .cm-confirm-neutral:hover { background: #2563eb !important; }
+      `}</style>
+
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: '#13131a',
+          border: '1px solid rgba(255,255,255,0.12)',
+          borderRadius: '16px',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.65)',
+          width: '100%', maxWidth: '420px',
+          padding: '32px 28px',
+          animation: 'cmSlideUp 0.28s cubic-bezier(0.22,1,0.36,1)',
+        }}
+      >
+        {/* Title */}
+        <h3 style={{
+          fontFamily: "'Playfair Display', serif",
+          fontSize: '1.15rem', fontWeight: 700,
+          color: '#f1f1f3', margin: '0 0 10px',
+        }}>
+          {title}
+        </h3>
+
+        {/* Message */}
+        <p style={{
+          fontSize: '0.88rem', color: '#71717a',
+          lineHeight: 1.65, margin: '0 0 26px',
+        }}>
+          {message}
+        </p>
+
+        {/* Buttons */}
+        <div style={{ display: 'flex', gap: '10px' }}>
           <button
-            style={{ ...styles.button, ...styles.cancelBtn }}
+            className="cm-cancel"
             onClick={onCancel}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#d4d6d8';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#ecf0f1';
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
+            style={{
+              flex: 1, padding: '12px',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '999px',
+              color: '#a1a1aa',
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: '0.88rem', fontWeight: 500,
+              cursor: 'pointer',
+              transition: 'background 0.2s, color 0.2s',
             }}
           >
             {cancelText}
           </button>
+
           <button
-            style={{ ...styles.button, ...styles.confirmBtn }}
+            className={isDanger ? 'cm-confirm-danger' : 'cm-confirm-neutral'}
             onClick={onConfirm}
-            onMouseEnter={(e) => {
-              const hoverColor = isDanger ? '#c0392b' : '#2980b9';
-              e.currentTarget.style.backgroundColor = hoverColor;
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
-            }}
-            onMouseLeave={(e) => {
-              const normalColor = isDanger ? '#e74c3c' : '#3498db';
-              e.currentTarget.style.backgroundColor = normalColor;
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
+            style={{
+              flex: 1, padding: '12px',
+              background: isDanger ? '#ef4444' : '#3b82f6',
+              border: 'none',
+              borderRadius: '999px',
+              color: '#fff',
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: '0.88rem', fontWeight: 700,
+              cursor: 'pointer',
+              transition: 'background 0.2s',
             }}
           >
             {confirmText}

@@ -1,184 +1,187 @@
-/* ===== OVERLAY ===== */
+/* ── Overlay ── */
 .rental-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 1000;
   padding: 20px;
 }
 
-/* ===== MODAL ===== */
+/* ── Modal ── */
 .rental-modal {
-  background: var(--bg-main);
+  background: #13131a;
+  border: 1px solid var(--border-hov);
   width: 100%;
-  max-width: 600px;
-
+  max-width: 560px;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
-
-  animation: modalFade 0.3s ease;
+  animation: modalFade 0.3s cubic-bezier(0.22,1,0.36,1);
 }
 
 @keyframes modalFade {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ===== HEADER ===== */
+/* ── Header ── */
 .rental-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 20px 24px;
+  padding: 18px 24px;
   border-bottom: 1px solid var(--border);
-  background: var(--bg-soft);
+  background: rgba(255,255,255,0.03);
 }
 
 .rental-header h2 {
-  font-size: 20px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
   font-weight: 700;
+  color: var(--text);
+  margin: 0;
 }
 
 .rental-header button {
   background: transparent;
   border: none;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
-  color: var(--text-sub);
-  border-radius: 6px;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
   padding: 4px 8px;
-  transition: 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
-
 .rental-header button:hover {
-  background: #e5e7eb;
-  color: var(--text-main);
+  background: var(--bg-card-hov);
+  color: var(--text);
 }
 
-/* ===== CONTENT ===== */
-.rental-content {
-  padding: 24px;
-}
+/* ── Content ── */
+.rental-content { padding: 24px; }
 
-/* ===== CAR INFO ===== */
+/* ── Car info card ── */
 .rental-car {
-  background: #eef2ff;
-  border-left: 4px solid var(--primary-color);
-  padding: 14px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-left: 3px solid var(--accent);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 22px;
 }
-
 .rental-car h3 {
-  font-size: 16px;
+  font-size: 0.95rem;
   font-weight: 700;
-  margin-bottom: 4px;
+  color: var(--text);
+  margin: 0 0 4px;
 }
-
 .rental-car p {
-  font-size: 13px;
-  color: var(--text-sub);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
 }
 
-/* ===== INPUT ===== */
+/* ── Inputs ── */
+.rental-content input[type="date"],
+.rental-content input[type="text"],
 .rental-content input {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 16px;
-
-  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  background: rgba(255,255,255,0.05);
   border: 1px solid var(--border);
-  font-size: 14px;
-
-  transition: 0.2s;
-}
-
-.rental-content input:focus {
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
   outline: none;
-  border-color: var(--primary-color);
+  transition: border-color 0.2s, background 0.2s;
+  color-scheme: dark;
+}
+.rental-content input:focus {
+  border-color: var(--border-focus);
+  background: rgba(255,255,255,0.08);
 }
 
-/* ===== ERROR ===== */
+/* ── Error ── */
 .rental-error {
-  background: #fee2e2;
-  color: #b91c1c;
-  padding: 10px;
-  border-radius: 6px;
-  font-size: 13px;
+  background: var(--danger-dim);
+  border: 1px solid var(--danger-border);
+  color: #fca5a5;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
   margin-bottom: 16px;
 }
 
-/* ===== SUMMARY ===== */
+/* ── Summary ── */
 .rental-summary {
-  background: var(--bg-soft);
-  padding: 16px;
-  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
   margin-bottom: 20px;
 }
-
 .rental-summary p {
-  font-size: 14px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
   margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
 }
-
 .rental-summary p:last-child {
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--accent);
+  font-size: 0.95rem;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  margin-bottom: 0;
 }
 
-/* ===== BUTTONS ===== */
+/* ── Actions ── */
 .rental-actions {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .rental-actions button {
   flex: 1;
-  padding: 14px;
-  border-radius: 10px;
+  padding: 13px;
+  border-radius: var(--radius-pill);
   border: none;
+  font-family: var(--font-body);
   font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: 0.25s;
+  transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
 }
 
-/* CONFIRM */
 .rental-confirm {
-  background: var(--primary-color);
-  color: white;
+  background: #ffffff;
+  color: #0a0a0a;
+  box-shadow: 0 4px 20px rgba(255,255,255,0.12);
 }
-
 .rental-confirm:hover {
-  background: #1a2f6d;
   transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255,255,255,0.2);
 }
-
-/* DISABLED */
 .rental-confirm:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
-/* CANCEL */
 .rental-cancel {
-  background: #e5e7eb;
-  color: var(--text-main);
+  background: var(--bg-card);
+  border: 1px solid var(--border) !important;
+  color: var(--text-muted);
 }
-
 .rental-cancel:hover {
-  background: #d1d5db;
+  background: var(--bg-card-hov);
+  color: var(--text);
 }
