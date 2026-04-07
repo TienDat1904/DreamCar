@@ -1,13 +1,19 @@
+﻿/* ================================================================
+   FILTER BAR — full token usage
+================================================================ */
 .filter-bar {
   background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border);
   padding: 20px 24px;
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
   margin-bottom: 28px;
 }
 
 .filter-title {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -25,33 +31,30 @@
 .filter-select {
   padding: 11px 14px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
   color: var(--text);
   font-family: var(--font-body);
   font-size: 0.88rem;
-  transition: border-color 0.2s, background 0.2s;
   width: 100%;
   outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  color-scheme: var(--input-color-scheme);
 }
-
 .filter-input::placeholder { color: var(--text-muted); }
-
 .filter-input:focus,
 .filter-select:focus {
   border-color: var(--border-focus);
-  background: rgba(255,255,255,0.08);
+  background: var(--input-bg-focus);
 }
 
-/* Fix select option visibility */
 .filter-select option {
-  background: #1a1a1e;
+  background: var(--bg-2);
   color: var(--text);
 }
 
 .filter-actions {
-  display: flex;
-  justify-content: flex-end;
+  display: flex; justify-content: flex-end;
   margin-top: 14px;
 }
 
@@ -63,11 +66,9 @@
   border-radius: var(--radius-pill);
   cursor: pointer;
   font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 500;
+  font-size: 0.82rem; font-weight: 500;
   transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
-
 .reset-btn:hover {
   background: var(--bg-card-hov);
   color: var(--text);

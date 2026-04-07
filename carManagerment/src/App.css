@@ -1,18 +1,19 @@
+/* ================================================================
+   APP SHELL
+================================================================ */
 .app-content {
   min-height: 100vh;
   background: var(--bg);
+  color: var(--text);
 }
 
 .app-loading {
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #080b0f;
-  font-family: 'Sora', 'DM Sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #71717a;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  font-family: var(--font-body);
+  font-size: 0.9rem; font-weight: 500;
+  color: var(--text-muted);
   letter-spacing: 0.1em;
 }
 

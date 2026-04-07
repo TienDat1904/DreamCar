@@ -4,18 +4,18 @@ import { useLanguage } from '../services/LanguageContext';
 import { useToast } from '../services/ToastContext';
 
 const theme = {
-  fontFamily: "'Sora', 'Segoe UI', sans-serif",
-  bg: '#09090b',
-  card: 'rgba(255,255,255,0.04)',
-  cardBorder: 'rgba(255,255,255,0.08)',
-  text: '#f1f1f3',
-  textMuted: '#71717a',
-  accent: '#f59e0b',
-  accentDim: 'rgba(245,158,11,0.12)',
-  danger: '#ef4444',
-  dangerDim: 'rgba(239,68,68,0.12)',
-  dangerBorder: 'rgba(239,68,68,0.28)',
-  radius: '14px',
+  fontFamily: "var(--font-body, 'Sora', sans-serif)",
+  bg: 'var(--bg)',
+  card: 'var(--bg-card)',
+  cardBorder: 'var(--border)',
+  text: 'var(--text)',
+  textMuted: 'var(--text-muted)',
+  accent: 'var(--accent)',
+  accentDim: 'var(--accent-dim)',
+  danger: 'var(--danger)',
+  dangerDim: 'var(--danger-dim)',
+  dangerBorder: 'var(--danger-border)',
+  radius: 'var(--radius-lg)',
 };
 
 const IconUser = () => (
@@ -69,7 +69,7 @@ function Profile({ currentUser, onLogout }) {
   const handleLogout = () => {
     if (!confirmLogout) { setConfirmLogout(true); return; }
     logoutUser();
-    showToast(t.login_success ? t.nav_logout : 'Logged out', 'success');
+    showToast(t.nav_logout || 'Logged out', 'success');
     onLogout();
   };
 
@@ -89,7 +89,7 @@ function Profile({ currentUser, onLogout }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: theme.bg,
+      background: 'var(--bg)',
       fontFamily: theme.fontFamily,
       padding: '60px 20px 80px',
       color: theme.text,
@@ -121,8 +121,8 @@ function Profile({ currentUser, onLogout }) {
             width: 80, height: 80, borderRadius: '50%',
             background: `linear-gradient(135deg, ${theme.accent}, #ea580c)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '1.8rem', fontWeight: 700, color: '#0a0a0a',
-            boxShadow: `0 0 0 4px ${theme.accentDim}, 0 12px 30px rgba(245,158,11,0.25)`,
+            fontSize: '1.8rem', fontWeight: 700, color: 'var(--btn-solid-text)',
+            boxShadow: `0 0 0 4px ${theme.accentDim}, 0 12px 30px var(--accent-glow)`,
           }}>
             {getInitials()}
           </div>
@@ -140,7 +140,7 @@ function Profile({ currentUser, onLogout }) {
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             padding: '5px 14px',
             background: theme.accentDim,
-            border: `1px solid rgba(245,158,11,0.25)`,
+            border: `1px solid var(--accent-glow)`,
             borderRadius: '999px',
             fontSize: '0.72rem', fontWeight: 600,
             letterSpacing: '0.12em', textTransform: 'uppercase',
@@ -240,7 +240,7 @@ function Profile({ currentUser, onLogout }) {
                   onClick={() => setConfirmLogout(false)}
                   style={{
                     flex: 1, padding: '12px',
-                    background: 'rgba(255,255,255,0.05)', color: theme.text,
+                    background: 'var(--bg-card)', color: 'var(--text)',
                     border: `1px solid ${theme.cardBorder}`,
                     borderRadius: '10px',
                     fontFamily: theme.fontFamily, fontSize: '0.88rem', fontWeight: 500,
@@ -254,7 +254,7 @@ function Profile({ currentUser, onLogout }) {
                   onClick={handleLogout}
                   style={{
                     flex: 1, padding: '12px',
-                    background: theme.danger, color: '#fff',
+                    background: 'var(--danger)', color: '#fff',
                     border: 'none', borderRadius: '10px',
                     fontFamily: theme.fontFamily, fontSize: '0.88rem', fontWeight: 700,
                     cursor: 'pointer', transition: 'background 0.2s',

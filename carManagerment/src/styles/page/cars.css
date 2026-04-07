@@ -1,3 +1,6 @@
+/* ================================================================
+   CARS PAGE
+================================================================ */
 .cars-page {
   min-height: 100vh;
   background: var(--bg);
@@ -5,98 +8,51 @@
   font-family: var(--font-body);
   position: relative;
 }
-
-/* Subtle background mountains like login */
 .cars-page::before {
   content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    linear-gradient(180deg, #06090e 0%, #0c1520 45%, #111e2e 70%, #090e18 100%);
-  z-index: -2;
-  pointer-events: none;
+  position: fixed; inset: 0;
+  background: var(--page-gradient);
+  z-index: -2; pointer-events: none;
 }
-
 .cars-page::after {
   content: '';
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  height: 45%;
-  background:
-    radial-gradient(ellipse 120% 40% at 50% 80%, rgba(70,105,145,0.08) 0%, transparent 60%);
-  z-index: -1;
-  pointer-events: none;
+  position: fixed; bottom: 0; left: 0; right: 0; height: 55%;
+  background: var(--page-glow);
+  z-index: -1; pointer-events: none;
 }
 
 /* ── Header ── */
-.cars-header {
-  text-align: center;
-  margin-bottom: 48px;
-  animation: fadeUp 0.5s ease both;
-}
-
+.cars-header { text-align: center; margin-bottom: 48px; animation: fadeUp 0.5s ease both; }
 .cars-header-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 12px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
 }
-
 .cars-header h1 {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.02em;
-  margin: 0 0 10px;
+  font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700;
+  color: var(--text); letter-spacing: -0.02em; margin: 0 0 10px;
 }
+.cars-header p { color: var(--text-muted); font-size: 0.95rem; font-weight: 300; }
 
-.cars-header p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  font-weight: 300;
-}
-
-/* ── Count ── */
-.cars-count {
-  font-size: 0.82rem;
-  color: var(--text-dim);
-  margin-bottom: 28px;
-  letter-spacing: 0.02em;
-}
+.cars-count { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 28px; }
 .cars-count span { color: var(--accent); font-weight: 700; }
 
-/* ── Grid ── */
 .cars-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 24px;
 }
-
-.car-card-wrapper {
-  animation: fadeUp 0.5s calc(var(--i, 0) * 0.06s) ease both;
-}
+.car-card-wrapper { animation: fadeUp 0.5s calc(var(--i, 0) * 0.06s) ease both; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Empty ── */
-.cars-empty {
-  text-align: center;
-  padding: 100px 20px;
-}
-.cars-empty-icon { font-size: 3rem; margin-bottom: 18px; opacity: 0.4; }
-.cars-empty h3 {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-.cars-empty p { color: var(--text-dim); font-size: 0.88rem; }
+.cars-empty { text-align: center; padding: 100px 20px; }
+.cars-empty-icon { font-size: 3rem; margin-bottom: 18px; opacity: 0.35; }
+.cars-empty h3 { font-family: var(--font-display); font-size: 1.3rem; color: var(--text-muted); margin-bottom: 8px; }
+.cars-empty p  { color: var(--text-dim); font-size: 0.88rem; }
 
 @media (max-width: 768px) {
   .cars-page { padding: 40px 5% 60px; }

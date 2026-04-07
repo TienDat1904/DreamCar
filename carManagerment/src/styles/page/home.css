@@ -4,34 +4,6 @@
    Font: Playfair Display (serif) + DM Sans
 ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
-
-:root {
-  --bg:          #09090b;
-  --bg-2:        #111114;
-  --bg-3:        #18181c;
-  --surface:     rgba(255,255,255,0.04);
-  --surface-hov: rgba(255,255,255,0.07);
-  --border:      rgba(255,255,255,0.08);
-  --border-hov:  rgba(255,255,255,0.18);
-  --text:        #f1f1f3;
-  --text-muted:  #71717a;
-  --text-dim:    #3f3f46;
-  --accent:      #f59e0b;
-  --accent-dim:  rgba(245,158,11,0.12);
-  --accent-glow: rgba(245,158,11,0.25);
-  --radius-sm:   8px;
-  --radius-md:   14px;
-  --radius-lg:   22px;
-  --radius-xl:   32px;
-  --shadow-card: 0 20px 60px rgba(0,0,0,0.45);
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body:    'DM Sans', system-ui, sans-serif;
-}
-
-/* ── Global reset ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 .home {
   width: 100%;
   background: var(--bg);
@@ -48,7 +20,7 @@
   min-height: 100vh;
   position: relative;
   background:
-    linear-gradient(160deg, rgba(9,9,11,0.85) 30%, rgba(9,9,11,0.55) 100%),
+    linear-gradient(160deg, rgba(7,8,12,0.88) 30%, rgba(7,8,12,0.58) 100%),
     url('https://static.vecteezy.com/system/resources/thumbnails/053/733/164/small/perfect-close-up-of-a-modern-car-showcasing-its-intricate-design-photo.jpg')
     center / cover no-repeat;
   display: flex;
@@ -643,3 +615,67 @@
   .stat-block         { flex: 1; min-width: 120px; border-bottom: none; border-right: 1px solid var(--border); }
   .stat-block:last-child { border-right: none; }
 }
+
+/* ================================================================
+   LIGHT MODE OVERRIDES (home.css)
+   All tokens auto-apply; only exceptions need explicit rules.
+================================================================ */
+[data-theme="light"] .home    { background: var(--bg); color: var(--text); }
+
+[data-theme="light"] .hero {
+  background:
+    linear-gradient(160deg, rgba(220,218,240,0.82) 30%, rgba(220,218,240,0.55) 100%),
+    url('https://static.vecteezy.com/system/resources/thumbnails/053/733/164/small/perfect-close-up-of-a-modern-car-showcasing-its-intricate-design-photo.jpg')
+    center / cover no-repeat;
+}
+[data-theme="light"] .hero-content h1 { color: var(--text); }
+[data-theme="light"] .hero-content p  { color: var(--text-muted); }
+[data-theme="light"] .hero-eyebrow    { color: var(--accent); border-color: var(--accent-dim); background: var(--accent-dim); }
+
+[data-theme="light"] .section-label  { color: var(--accent); }
+[data-theme="light"] .section-header h2 { color: var(--text); }
+[data-theme="light"] .section-header p  { color: var(--text-muted); }
+
+[data-theme="light"] .featured      { background: var(--bg); }
+[data-theme="light"] .brand-banner  { background: var(--bg-2); border-color: var(--border); }
+[data-theme="light"] .brand-text h2 { color: var(--text); }
+[data-theme="light"] .brand-text p  { color: var(--text-muted); }
+[data-theme="light"] .stat-num   { color: var(--accent); }
+[data-theme="light"] .stat-label { color: var(--text-muted); }
+[data-theme="light"] .stat-block { border-color: var(--border); }
+
+[data-theme="light"] .services { background: var(--bg); }
+[data-theme="light"] .service-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  border-color: var(--border);
+}
+[data-theme="light"] .service-card:hover  { background: var(--bg-card-hov); border-color: var(--border-hov); }
+[data-theme="light"] .service-card h3     { color: var(--text); }
+[data-theme="light"] .service-card p      { color: var(--text-muted); }
+
+[data-theme="light"] .card-wrapper > * {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+[data-theme="light"] .btn-primary  { background: var(--btn-solid-bg); color: var(--btn-solid-text); box-shadow: var(--btn-solid-shadow); }
+[data-theme="light"] .btn-ghost    { background: rgba(100,90,160,0.08); color: var(--text); border-color: var(--border); }
+[data-theme="light"] .btn-ghost:hover { background: rgba(100,90,160,0.14); }
+[data-theme="light"] .btn-outline  { color: var(--text); border-color: var(--border-hov); }
+[data-theme="light"] .btn-outline:hover { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
+
+[data-theme="light"] .footer          { background: var(--bg-2); border-color: var(--border); }
+[data-theme="light"] .footer-top      { border-color: var(--border); }
+[data-theme="light"] .footer-col h4   { color: var(--text-muted); }
+[data-theme="light"] .footer-col li   { color: var(--text-dim); }
+[data-theme="light"] .footer-col li:hover { color: var(--text); }
+[data-theme="light"] .footer-bottom   { color: var(--text-dim); }
+[data-theme="light"] .social-chip     { background: var(--surface); border-color: var(--border); color: var(--text-muted); }
+[data-theme="light"] .social-chip:hover { background: var(--accent-dim); color: var(--accent); border-color: rgba(245,158,11,0.3); }
+[data-theme="light"] .footer-logo     { color: var(--text); }
+[data-theme="light"] .footer-brand p  { color: var(--text-muted); }
+
+[data-theme="light"] .marquee-strip { background: var(--accent); }
+[data-theme="light"] .scroll-line   { background: linear-gradient(90deg, var(--text-muted), transparent); }

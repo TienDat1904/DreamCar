@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 
 function ConfirmModal({ title, message, onConfirm, onCancel, confirmText, cancelText, isDanger = false }) {
-
-  // Close on Escape key
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onCancel(); };
     document.addEventListener('keydown', handleKey);
@@ -13,88 +11,72 @@ function ConfirmModal({ title, message, onConfirm, onCancel, confirmText, cancel
     <div
       style={{
         position: 'fixed', inset: 0,
-        background: 'rgba(0,0,0,0.75)',
-        backdropFilter: 'blur(4px)',
+        background: 'rgba(0,0,0,0.55)',
+        backdropFilter: 'blur(6px)',
         display: 'flex', justifyContent: 'center', alignItems: 'center',
         zIndex: 2000, padding: '20px',
-        animation: 'cmFadeIn 0.2s ease',
       }}
       onClick={onCancel}
     >
       <style>{`
-        @keyframes cmFadeIn { from{opacity:0} to{opacity:1} }
-        @keyframes cmSlideUp { from{opacity:0;transform:scale(0.94) translateY(12px)} to{opacity:1;transform:scale(1) translateY(0)} }
-        .cm-cancel:hover { background: rgba(255,255,255,0.09) !important; color: #f1f1f3 !important; }
-        .cm-confirm-danger:hover  { background: #dc2626 !important; }
-        .cm-confirm-neutral:hover { background: #2563eb !important; }
+        @keyframes cmIn { from{opacity:0;transform:scale(0.94) translateY(12px)} to{opacity:1;transform:scale(1) translateY(0)} }
+        .cm-cancel:hover  { background: var(--bg-card-hov) !important; color: var(--text) !important; }
+        .cm-confirm:hover { opacity: 0.88; transform: translateY(-1px); }
       `}</style>
 
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: '#13131a',
-          border: '1px solid rgba(255,255,255,0.12)',
-          borderRadius: '16px',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.65)',
+          background: 'var(--glass-bg)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
+          border: '1px solid var(--border-hov)',
+          borderRadius: 'var(--radius-lg)',
+          boxShadow: 'var(--shadow-lg)',
           width: '100%', maxWidth: '420px',
           padding: '32px 28px',
-          animation: 'cmSlideUp 0.28s cubic-bezier(0.22,1,0.36,1)',
+          animation: 'cmIn 0.28s cubic-bezier(0.22,1,0.36,1)',
         }}
       >
-        {/* Title */}
         <h3 style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: 'var(--font-display)',
           fontSize: '1.15rem', fontWeight: 700,
-          color: '#f1f1f3', margin: '0 0 10px',
-        }}>
-          {title}
-        </h3>
+          color: 'var(--text)', margin: '0 0 10px',
+        }}>{title}</h3>
 
-        {/* Message */}
         <p style={{
-          fontSize: '0.88rem', color: '#71717a',
+          fontSize: '0.88rem', color: 'var(--text-muted)',
           lineHeight: 1.65, margin: '0 0 26px',
-        }}>
-          {message}
-        </p>
+        }}>{message}</p>
 
-        {/* Buttons */}
         <div style={{ display: 'flex', gap: '10px' }}>
-          <button
-            className="cm-cancel"
-            onClick={onCancel}
+          <button className="cm-cancel" onClick={onCancel}
             style={{
               flex: 1, padding: '12px',
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '999px',
-              color: '#a1a1aa',
-              fontFamily: "'DM Sans', sans-serif",
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-pill)',
+              color: 'var(--text-muted)',
+              fontFamily: 'var(--font-body)',
               fontSize: '0.88rem', fontWeight: 500,
               cursor: 'pointer',
               transition: 'background 0.2s, color 0.2s',
             }}
-          >
-            {cancelText}
-          </button>
+          >{cancelText}</button>
 
-          <button
-            className={isDanger ? 'cm-confirm-danger' : 'cm-confirm-neutral'}
-            onClick={onConfirm}
+          <button className="cm-confirm" onClick={onConfirm}
             style={{
               flex: 1, padding: '12px',
-              background: isDanger ? '#ef4444' : '#3b82f6',
+              background: isDanger ? 'var(--danger)' : 'var(--accent)',
               border: 'none',
-              borderRadius: '999px',
+              borderRadius: 'var(--radius-pill)',
               color: '#fff',
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: 'var(--font-body)',
               fontSize: '0.88rem', fontWeight: 700,
               cursor: 'pointer',
-              transition: 'background 0.2s',
+              transition: 'opacity 0.2s, transform 0.15s',
             }}
-          >
-            {confirmText}
-          </button>
+          >{confirmText}</button>
         </div>
       </div>
     </div>

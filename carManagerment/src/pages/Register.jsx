@@ -1,22 +1,23 @@
 import { useState } from 'react';
 import { registerUser, getUsers } from '../services/localStorageService';
 import { useLanguage } from '../services/LanguageContext';
+import { useTheme } from '../services/ThemeContext';
 
 const theme = {
   fontFamily: "'Sora', 'Segoe UI', sans-serif",
-  cardBg: 'rgba(16, 20, 28, 0.70)',
-  border: 'rgba(255,255,255,0.10)',
-  borderFocus: 'rgba(255,255,255,0.38)',
-  borderError: 'rgba(239,68,68,0.55)',
+  cardBg: 'var(--glass-bg)',
+  border: 'var(--border)',
+  borderFocus: 'var(--border-focus)',
+  borderError: 'var(--danger-border)',
   borderSuccess: 'rgba(34,197,94,0.50)',
-  inputBg: 'rgba(255,255,255,0.055)',
-  inputBgFocus: 'rgba(255,255,255,0.095)',
-  text: '#e8eaed',
-  textMuted: 'rgba(232,234,237,0.42)',
-  btnBg: '#ffffff',
-  btnText: '#0d1117',
-  btnDisabled: 'rgba(255,255,255,0.22)',
-  btnDisabledText: 'rgba(255,255,255,0.45)',
+  inputBg: 'var(--input-bg)',
+  inputBgFocus: 'var(--input-bg-focus)',
+  text: 'var(--text)',
+  textMuted: 'var(--text-muted)',
+  btnBg: 'var(--btn-solid-bg)',
+  btnText: 'var(--btn-solid-text)',
+  btnDisabled: 'var(--border)',
+   btnDisabledText: 'var(--text-muted)',
   radius: '13px',
   radiusBtn: '50px',
   shadow: '0 40px 100px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.05)',
@@ -61,8 +62,8 @@ const IconEyeOff = () => (
   </svg>
 );
 
-const BackgroundScene = () => (
-  <div style={{ position: 'fixed', inset: 0, zIndex: 0, overflow: 'hidden', background: '#080b0f' }}>
+const DarkBackground = () => (
+  <div style={{ position: 'fixed', inset: 0, zIndex: 0, overflow: 'hidden' }}>
     <div style={{
       position: 'absolute', inset: 0,
       backgroundImage: `
@@ -86,23 +87,27 @@ const BackgroundScene = () => (
       <rect x="0" y="382" width="1440" height="18" fill="#050a12"/>
       <ellipse cx="720" cy="395" rx="900" ry="55" fill="rgba(55,85,125,0.07)"/>
     </svg>
-    <div style={{
-      position: 'absolute', inset: 0,
+    <div style={{ position: 'absolute', inset: 0,
       background: 'radial-gradient(ellipse 120% 38% at 50% 73%, rgba(70,105,145,0.10) 0%, transparent 60%)',
-      animation: 'fogDrift 12s ease-in-out infinite alternate',
-    }} />
-    <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap');
-      @keyframes fogDrift { 0%{transform:translateX(-3%) scaleY(1)} 100%{transform:translateX(3%) scaleY(1.07)} }
-      @keyframes cardIn  { from{opacity:0;transform:translateY(24px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
-      @keyframes spin    { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
-      * { box-sizing: border-box; }
-    `}</style>
+      animation: 'fogDrift 12s ease-in-out infinite alternate' }} />
+  </div>
+);
+
+const LightBackground = () => (
+  <div style={{ position: 'fixed', inset: 0, zIndex: 0, overflow: 'hidden' }}>
+    <div style={{ position: 'absolute', inset: 0,
+      background: 'linear-gradient(145deg, #eceaf6 0%, #e2dff4 35%, #d8d5ee 65%, #dddaf2 100%)' }} />
+    <div style={{ position: 'absolute', inset: 0,
+      background: 'radial-gradient(ellipse 80% 60% at 78% -5%, rgba(200,190,255,0.45) 0%, transparent 55%)' }} />
+    <div style={{ position: 'absolute', inset: 0,
+      background: 'radial-gradient(ellipse 100% 45% at 25% 105%, rgba(160,150,220,0.28) 0%, transparent 55%)' }} />
   </div>
 );
 
 function Register({ onRegisterSuccess, onSwitchToLogin }) {
   const { t } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const [username, setUsername]               = useState('');
   const [fullName, setFullName]               = useState('');
@@ -222,7 +227,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
   };
 
   const getBorderColor = (field) => {
-    if (errors[field]) return theme.borderError;
+    if (errors[field]) return 'var(--danger-border)';
     const validMap = {
       username:        username.trim().length >= 3 && /^[a-zA-Z0-9_]+$/.test(username.trim()),
       fullName:        fullName.trim().length >= 2,
@@ -231,16 +236,16 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
       password:        password && validatePassword(password),
       confirmPassword: confirmPassword && confirmPassword === password,
     };
-    if (validMap[field]) return theme.borderSuccess;
-    return focusedField === field ? theme.borderFocus : theme.border;
+    if (validMap[field]) return 'var(--border-success)';
+    return focusedField === field ? 'var(--border-focus)' : 'var(--border)';
   };
 
   const inputStyle = (field) => ({
     width: '100%', padding: '15px 48px 15px 18px',
-    fontFamily: theme.fontFamily, fontSize: '0.88rem', color: theme.text,
-    background: focusedField === field ? theme.inputBgFocus : theme.inputBg,
+    fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: 'var(--text)',
+    background: focusedField === field ? 'var(--input-bg-focus)' : 'var(--input-bg)',
     border: `1px solid ${getBorderColor(field)}`,
-    borderRadius: theme.radius, outline: 'none',
+    borderRadius: '13px', outline: 'none',
     boxShadow: focusedField === field ? '0 0 0 3px rgba(255,255,255,0.05)' : 'none',
     transition: 'all 0.2s ease', opacity: isLoading ? 0.6 : 1,
   });
@@ -251,31 +256,34 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
   });
 
   const IconSlot = ({ children }) => (
-    <span style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: theme.textMuted }}>
+    <span style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>
       {children}
     </span>
   );
 
+  const cardBg     = isDark ? 'rgba(14,16,26,0.72)' : 'rgba(255,255,255,0.72)';
+  const titleBarBg = isDark ? 'rgba(22,25,30,0.97)' : 'rgba(230,228,248,0.95)';
+  const titleBarBorder = isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(100,90,160,0.12)';
+  const cardShadow = isDark
+    ? '0 40px 100px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.05)'
+    : '0 20px 60px rgba(80,70,140,0.18), 0 0 0 1px rgba(100,90,160,0.12)';
+
   return (
     <>
-      <BackgroundScene />
+      {isDark ? <DarkBackground /> : <LightBackground />}
       <div style={{
         position: 'relative', zIndex: 10,
         display: 'flex', justifyContent: 'center', alignItems: 'center',
-        minHeight: '100vh', padding: '24px 20px', fontFamily: theme.fontFamily,
+        minHeight: '100vh', padding: '24px 20px', fontFamily: 'var(--font-body)',
       }}>
         <div style={{
           width: '460px', maxWidth: '95vw',
           borderRadius: '14px', overflow: 'hidden',
-          boxShadow: theme.shadow,
+          boxShadow: cardShadow,
           animation: 'cardIn 0.55s cubic-bezier(0.22,1,0.36,1) both',
         }}>
           {/* Title bar */}
-          <div style={{
-            height: '40px', background: 'rgba(22,25,30,0.97)',
-            display: 'flex', alignItems: 'center', padding: '0 14px', gap: '8px',
-            borderBottom: '1px solid rgba(255,255,255,0.05)',
-          }}>
+          <div style={{ height: '40px', background: titleBarBg, display: 'flex', alignItems: 'center', padding: '0 14px', gap: '8px', borderBottom: titleBarBorder }}>
             {[['#ff5f57'], ['#febc2e'], ['#28c840']].map(([color], i) => (
               <span key={i} style={{ width: 12, height: 12, borderRadius: '50%', background: color, flexShrink: 0 }} />
             ))}
@@ -283,23 +291,23 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
 
           {/* Glass card */}
           <div style={{
-            background: theme.cardBg,
+            background: cardBg,
             backdropFilter: 'blur(26px) saturate(150%)',
             WebkitBackdropFilter: 'blur(26px) saturate(150%)',
             padding: '40px 44px 36px',
           }}>
             <h1 style={{
-              fontFamily: theme.fontFamily, fontSize: '2rem', fontWeight: 700,
-              color: theme.text, textAlign: 'center', letterSpacing: '-0.02em', margin: '0 0 24px',
+              fontFamily: 'var(--font-body)', fontSize: '2rem', fontWeight: 700,
+              color: 'var(--text)', textAlign: 'center', letterSpacing: '-0.02em', margin: '0 0 24px',
             }}>
               {t.register_title}
             </h1>
 
             {errors.general && (
               <div style={{
-                color: '#fca5a5', fontSize: '0.82rem', textAlign: 'center',
+                color: 'var(--danger)', fontSize: '0.82rem', textAlign: 'center',
                 padding: '10px 14px', marginBottom: '14px',
-                background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: '9px',
+                background: 'var(--danger-dim)', border: '1px solid var(--danger-border)', borderRadius: '9px',
               }}>{errors.general}</div>
             )}
             {successMessage && (
@@ -385,7 +393,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
                     onFocus={() => setFocusedField('password')}
                     placeholder={t.register_password_placeholder} disabled={isLoading} autoComplete="new-password" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} disabled={isLoading}
-                    style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: theme.textMuted, display: 'flex', padding: 0 }}>
+                    style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 0 }}>
                     {showPassword ? <IconEyeOff /> : <IconEye />}
                   </button>
                 </div>
@@ -404,7 +412,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
                     onFocus={() => setFocusedField('confirmPassword')}
                     placeholder={t.register_confirm_password_placeholder} disabled={isLoading} autoComplete="new-password" />
                   <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} disabled={isLoading}
-                    style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: theme.textMuted, display: 'flex', padding: 0 }}>
+                    style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 0 }}>
                     {showConfirmPassword ? <IconEyeOff /> : <IconEye />}
                   </button>
                 </div>
@@ -418,10 +426,10 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
               <button type="submit" disabled={isLoading}
                 style={{
                   width: '100%', padding: '15px',
-                  background: isLoading ? theme.btnDisabled : theme.btnBg,
-                  color: isLoading ? theme.btnDisabledText : theme.btnText,
-                  border: 'none', borderRadius: theme.radiusBtn,
-                  fontFamily: theme.fontFamily, fontSize: '0.9rem', fontWeight: 700,
+                  background: isLoading ? 'var(--border)' : 'var(--btn-solid-bg)',
+                  color: isLoading ? 'var(--text-muted)' : 'var(--btn-solid-text)',
+                  borderRadius: '13px',
+                  fontFamily: 'var(--font-body)', fontSize: '0.9rem', fontWeight: 700,
                   cursor: isLoading ? 'not-allowed' : 'pointer', marginTop: '6px',
                   boxShadow: isLoading ? 'none' : '0 4px 20px rgba(255,255,255,0.14)',
                   transition: 'transform 0.15s, box-shadow 0.2s, background 0.2s',
@@ -441,10 +449,10 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
               </button>
             </form>
 
-            <p style={{ textAlign: 'center', marginTop: '18px', fontSize: '0.82rem', color: theme.textMuted }}>
+            <p style={{ textAlign: 'center', marginTop: '18px', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
               {t.register_link_text}{' '}
               <button onClick={onSwitchToLogin} disabled={isLoading}
-                style={{ background: 'none', border: 'none', cursor: isLoading ? 'not-allowed' : 'pointer', color: theme.text, fontFamily: theme.fontFamily, fontSize: '0.82rem', fontWeight: 700, padding: 0 }}>
+                style={{ background: 'none', border: 'none', cursor: isLoading ? 'not-allowed' : 'pointer', color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.82rem', fontWeight: 700, padding: 0 }}>
                 {t.register_link_button}
               </button>
             </p>

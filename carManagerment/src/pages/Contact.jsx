@@ -40,10 +40,10 @@ function Contact() {
   const inputStyle = (hasError) => ({
     width: '100%',
     padding: '14px 18px',
-    background: 'rgba(255,255,255,0.05)',
-    border: `1px solid ${hasError ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.1)'}`,
+    background: 'var(--input-bg)',
+    border: `1px solid ${hasError ? 'rgba(239,68,68,0.5)' : 'var(--border)'}`,
     borderRadius: '12px',
-    color: '#f1f1f3',
+    color: 'var(--text)',
     fontFamily: "'DM Sans', sans-serif",
     fontSize: '0.9rem',
     outline: 'none',
@@ -54,15 +54,15 @@ function Contact() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#09090b',
+      background: 'var(--bg)',
       padding: '60px 20px 80px',
       fontFamily: "'DM Sans', 'Sora', sans-serif",
-      color: '#f1f1f3',
+      color: 'var(--text)',
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap');
-        .contact-input:focus { border-color: rgba(255,255,255,0.35) !important; background: rgba(255,255,255,0.08) !important; }
-        .contact-input::placeholder { color: rgba(232,234,237,0.35); }
+        .contact-input:focus { border-color: var(--border-focus) !important; background: var(--input-bg-focus) !important; }
+        .contact-input::placeholder { color: var(--text-muted); }
         .contact-input textarea { resize: vertical; }
         .contact-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,255,255,0.18) !important; }
       `}</style>
@@ -73,27 +73,27 @@ function Contact() {
         <div style={{ textAlign: 'center', marginBottom: '44px' }}>
           <div style={{
             fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.25em',
-            textTransform: 'uppercase', color: '#f59e0b', marginBottom: '12px',
+            textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '12px',
           }}>
             CONTACT
           </div>
           <h1 style={{
             fontFamily: "'Playfair Display', serif",
             fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
-            fontWeight: 700, color: '#f1f1f3',
+            fontWeight: 700, color: 'var(--text)',
             letterSpacing: '-0.02em', margin: '0 0 10px',
           }}>
             {t.contact_title}
           </h1>
-          <p style={{ color: '#71717a', fontSize: '0.9rem', fontWeight: 300 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 300 }}>
             {t.contact_subtitle}
           </p>
         </div>
 
         {/* Form card */}
         <div style={{
-          background: 'rgba(255,255,255,0.04)',
-          border: '1px solid rgba(255,255,255,0.08)',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border)',
           borderRadius: '16px',
           padding: '36px 32px',
         }}>
@@ -109,7 +109,7 @@ function Contact() {
                   value={form.firstName} onChange={handleChange}
                   style={inputStyle(errors.firstName)}
                 />
-                {errors.firstName && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.firstName}</span>}
+                {errors.firstName && <span style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.firstName}</span>}
               </div>
               <div>
                 <input
@@ -119,7 +119,7 @@ function Contact() {
                   value={form.lastName} onChange={handleChange}
                   style={inputStyle(errors.lastName)}
                 />
-                {errors.lastName && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.lastName}</span>}
+                {errors.lastName && <span style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.lastName}</span>}
               </div>
             </div>
 
@@ -132,7 +132,7 @@ function Contact() {
                 value={form.email} onChange={handleChange}
                 style={inputStyle(errors.email)}
               />
-              {errors.email && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.email}</span>}
+              {errors.email && <span style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.email}</span>}
             </div>
 
             {/* Phone */}
@@ -144,7 +144,7 @@ function Contact() {
                 value={form.phone} onChange={handleChange}
                 style={inputStyle(errors.phone)}
               />
-              {errors.phone && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
+              {errors.phone && <span style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
             </div>
 
             {/* Address (optional) */}
@@ -168,7 +168,7 @@ function Contact() {
                 rows={5}
                 style={{ ...inputStyle(errors.message), resize: 'vertical' }}
               />
-              {errors.message && <span style={{ color: '#fca5a5', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.message}</span>}
+              {errors.message && <span style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.message}</span>}
             </div>
 
             {/* Submit */}
@@ -177,12 +177,12 @@ function Contact() {
               type="submit"
               style={{
                 width: '100%', padding: '15px',
-                background: '#ffffff', color: '#0a0a0a',
+                background: 'var(--btn-solid-bg)', color: 'var(--btn-solid-text)',
                 border: 'none', borderRadius: '50px',
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: '0.9rem', fontWeight: 700,
                 cursor: 'pointer', marginTop: '4px',
-                boxShadow: '0 4px 20px rgba(255,255,255,0.12)',
+                boxShadow: 'var(--btn-solid-shadow)',
                 transition: 'transform 0.15s, box-shadow 0.2s',
               }}
             >
@@ -203,7 +203,7 @@ function Contact() {
           ].map(({ icon, text }) => (
             <div key={text} style={{
               display: 'flex', alignItems: 'center', gap: '8px',
-              fontSize: '0.82rem', color: '#71717a',
+              fontSize: '0.82rem', color: 'var(--text-muted)',
             }}>
               <span>{icon}</span>
               <span>{text}</span>

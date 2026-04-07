@@ -3,19 +3,20 @@ import { getCurrentUser, initializeDemoUser } from './services/localStorageServi
 import { LanguageProvider } from './services/LanguageContext';
 import { SearchProvider } from './services/SearchContext';
 import { ToastProvider } from './services/ToastContext';
+import { ThemeProvider } from './services/ThemeContext';
 
 import Toast from './components/Toast';
 import Navbar from './components/Navbar';
 
-import Home from './pages/Home';
-import Cars from './pages/Cars';
-import Cart from './pages/Cart';
-import Rentals from './pages/Rentals';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Home        from './pages/Home';
+import Cars        from './pages/Cars';
+import Cart        from './pages/Cart';
+import Rentals     from './pages/Rentals';
+import Login       from './pages/Login';
+import Register    from './pages/Register';
 import CarDetailPage from './pages/CarDetailPage';
-import Contact from './pages/Contact';
-import Profile from './pages/Profile';
+import Contact     from './pages/Contact';
+import Profile     from './pages/Profile';
 
 import './App.css';
 
@@ -57,53 +58,25 @@ function AppContent() {
   const renderPage = () => {
     switch (currentPage) {
       case PAGES.HOME:
-        return (
-          <Home
-            onNavigateToCars={() => setCurrentPage(PAGES.CARS)}
-            onSelectCar={handleSelectCar}
-          />
-        );
+        return <Home onNavigateToCars={() => setCurrentPage(PAGES.CARS)} onSelectCar={handleSelectCar} />;
       case PAGES.CARS:
         return <Cars onCardClick={handleSelectCar} />;
       case PAGES.DETAIL:
-        return (
-          <CarDetailPage
-            car={selectedCar}
-            onBack={() => setCurrentPage(PAGES.CARS)}
-          />
-        );
+        return <CarDetailPage car={selectedCar} onBack={() => setCurrentPage(PAGES.CARS)} />;
       case PAGES.CART:
-        return (
-          <Cart
-            onNavigateToCars={() => setCurrentPage(PAGES.CARS)}
-            onNavigateToHome={() => setCurrentPage(PAGES.HOME)}
-          />
-        );
+        return <Cart onNavigateToCars={() => setCurrentPage(PAGES.CARS)} onNavigateToHome={() => setCurrentPage(PAGES.HOME)} />;
       case PAGES.RENTALS:
-        return (
-          <Rentals
-            onNavigateToCars={() => setCurrentPage(PAGES.CARS)}
-            onNavigateToHome={() => setCurrentPage(PAGES.HOME)}
-          />
-        );
+        return <Rentals onNavigateToCars={() => setCurrentPage(PAGES.CARS)} onNavigateToHome={() => setCurrentPage(PAGES.HOME)} />;
       case PAGES.CONTACT:
         return <Contact />;
       case PAGES.PROFILE:
-        return (
-          <Profile
-            currentUser={currentUser}
-            onLogout={handleLogout}
-            onNavigate={setCurrentPage}
-          />
-        );
+        return <Profile currentUser={currentUser} onLogout={handleLogout} onNavigate={setCurrentPage} />;
       default:
         return <Home onNavigateToCars={() => setCurrentPage(PAGES.CARS)} onSelectCar={handleSelectCar} />;
     }
   };
 
-  if (isLoading) {
-    return <div className="app-loading">Loading...</div>;
-  }
+  if (isLoading) return <div className="app-loading">Loading...</div>;
 
   if (!currentUser) {
     return authPage === 'login' ? (
@@ -135,14 +108,16 @@ function AppContent() {
 
 function App() {
   return (
-    <LanguageProvider>
-      <SearchProvider>
-        <ToastProvider>
-          <Toast />
-          <AppContent />
-        </ToastProvider>
-      </SearchProvider>
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <SearchProvider>
+          <ToastProvider>
+            <Toast />
+            <AppContent />
+          </ToastProvider>
+        </SearchProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 

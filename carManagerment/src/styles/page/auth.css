@@ -1,11 +1,7 @@
-/* Auth pages (Login / Register) use inline styles.
-   This file sets the base body background to prevent white flash. */
-
-body {
-  background: #080b0f;
+/* ================================================================
+   AUTH PAGES (Login / Register) — prevent flash, set base bg
+================================================================ */
+html, body {
+  background: var(--bg);
 }
-
-/* Prevent layout.css #root from adding horizontal padding on auth pages */
-#root {
-  padding: 0;
-}
+#root { padding: 0; }

@@ -1,3 +1,6 @@
+﻿/* ================================================================
+   BUTTONS — use design tokens, no hardcoded colors
+================================================================ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -10,54 +13,64 @@
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.9rem;
-  transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
   text-decoration: none;
+  white-space: nowrap;
 }
 
+/* ── Solid (primary action) ── */
 .btn-primary {
-  background: #ffffff;
-  color: #0a0a0a;
-  box-shadow: 0 4px 20px rgba(255,255,255,0.12);
+  background: var(--btn-solid-bg);
+  color: var(--btn-solid-text);
+  border: none;
+  box-shadow: var(--btn-solid-shadow);
+  transition: transform 0.15s, box-shadow 0.2s;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(255,255,255,0.2);
+  box-shadow: var(--btn-solid-shadow-hov);
 }
 
+/* ── Ghost (secondary action) ── */
 .btn-secondary {
-  background: transparent;
+  background: var(--bg-card);
   color: var(--text);
   border: 1px solid var(--border-hov);
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
 .btn-secondary:hover {
-  background: rgba(255,255,255,0.07);
+  background: var(--bg-card-hov);
   border-color: var(--border-focus);
   transform: translateY(-1px);
 }
 
+/* ── Accent ── */
 .btn-accent {
   background: var(--accent);
   color: #0a0a0a;
+  border: none;
   box-shadow: 0 4px 20px var(--accent-glow);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 .btn-accent:hover {
-  background: #fbbf24;
+  background: var(--accent-hover);
   transform: translateY(-2px);
   box-shadow: 0 8px 30px var(--accent-glow);
 }
 
+/* ── Danger ── */
 .btn-danger {
   background: var(--danger-dim);
   color: var(--danger);
   border: 1px solid var(--danger-border);
+  transition: background 0.2s, border-color 0.2s;
 }
 .btn-danger:hover {
   background: rgba(239,68,68,0.2);
-  border-color: rgba(239,68,68,0.5);
+  border-color: var(--danger);
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
   transform: none !important;
   box-shadow: none !important;

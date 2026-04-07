@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=Sora:wght@300;400;600;700&display=swap');
 
+html {
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
 body {
   font-family: var(--font-body);
   background: var(--bg);
@@ -7,10 +15,11 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.02em; }
-h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; }
-h3 { font-size: 1.15rem; font-weight: 600; }
-
+h1 { font-size: clamp(2rem, 5vw, 3rem);   font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+h3 { font-size: 1.15rem; font-weight: 600; color: var(--text); }
 p  { color: var(--text-muted); line-height: 1.7; }
+a  { color: var(--accent); }
